@@ -25,3 +25,8 @@ export function formatPercent(value: number) {
 export function formatQuantity(value: number) {
   return new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 8 }).format(value);
 }
+
+/** Porcentagem sem sinal, ex.: "12,3%". */
+export function formatPlainPercent(value: number, digits = 1) {
+  return `${value.toFixed(digits).replace(".", ",")}%`;
+}

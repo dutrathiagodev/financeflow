@@ -1,4 +1,12 @@
-export const simulationNotice = "Simulação: nenhum dinheiro real é usado. Os dados ficam salvos só neste navegador.";
+import type { AccountError } from "@/domain/account/types";
+import type { TransactionFilter } from "@/domain/account/transactions";
+
+export const accountErrors: Record<AccountError, string> = {
+  "invalid-amount": "Informe um valor maior que zero.",
+  "invalid-price": "Cotação indisponível para esta moeda.",
+  "insufficient-funds": "Saldo insuficiente.",
+  "insufficient-holding": "Você não tem essa quantidade.",
+};
 
 export const walletText = {
   title: "Carteira",
@@ -6,13 +14,9 @@ export const walletText = {
   cash: "Saldo disponível",
   invested: "Investido em moedas",
   total: "Patrimônio total",
-  depositTitle: "Depositar",
-  withdrawTitle: "Sacar",
   amountLabel: "Valor (USD)",
-  deposit: "Depositar",
-  withdraw: "Sacar",
-  depositDone: "Depósito realizado.",
-  withdrawDone: "Saque realizado.",
+  deposit: { title: "Depositar", action: "Depositar", done: "Depósito realizado." },
+  withdraw: { title: "Sacar", action: "Sacar", done: "Saque realizado." },
   reset: "Zerar conta",
   resetConfirm: "Isso apaga saldo, posições e histórico. Confirmar?",
   resetDone: "Conta reiniciada com saldo inicial.",
@@ -21,6 +25,7 @@ export const walletText = {
 export const tradeText = {
   title: "Negociar",
   description: "Compre e venda moedas ao preço atual de mercado.",
+  sideLabel: "Tipo de ordem",
   coin: "Moeda",
   buy: "Comprar",
   sell: "Vender",
@@ -29,29 +34,30 @@ export const tradeText = {
   holding: "Você possui",
   buyAmount: "Valor a investir (USD)",
   sellAmount: "Quantidade a vender",
-  estimate: "Você recebe aproximadamente",
   estimateBuy: "Você compra aproximadamente",
+  estimateSell: "Você recebe aproximadamente",
   max: "Máx.",
   submitBuy: "Confirmar compra",
   submitSell: "Confirmar venda",
   doneBuy: "Compra realizada.",
   doneSell: "Venda realizada.",
-  unavailable: "Não foi possível carregar as cotações agora.",
 };
 
 export const transactionsText = {
   title: "Transações",
   description: "Histórico de depósitos, saques, compras e vendas.",
   empty: "Nenhuma transação ainda. Faça um depósito ou uma compra.",
+  filterLabel: "Filtrar transações",
   columns: { date: "Data", type: "Tipo", asset: "Ativo", quantity: "Quantidade", price: "Preço", total: "Total" },
   types: { buy: "Compra", sell: "Venda", deposit: "Depósito", withdraw: "Saque" },
-  filters: [
-    { id: "all", label: "Todas" },
-    { id: "buy", label: "Compras" },
-    { id: "sell", label: "Vendas" },
-    { id: "cash", label: "Depósitos e saques" },
-  ],
 };
+
+export const transactionFilters: { id: TransactionFilter; label: string }[] = [
+  { id: "all", label: "Todas" },
+  { id: "buy", label: "Compras" },
+  { id: "sell", label: "Vendas" },
+  { id: "cash", label: "Depósitos e saques" },
+];
 
 export const portfolioText = {
   title: "Portfólio",
@@ -62,5 +68,4 @@ export const portfolioText = {
   pnl: "Lucro / prejuízo",
   allocation: "Alocação",
   columns: { asset: "Ativo", quantity: "Quantidade", avg: "Preço médio", price: "Preço atual", value: "Valor", pnl: "Resultado" },
-  unavailable: "Não foi possível carregar as cotações agora.",
 };

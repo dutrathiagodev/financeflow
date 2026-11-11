@@ -1,15 +1,12 @@
-import { PageHeading } from "@/components/ui/page-heading";
+import { MarketData } from "@/components/data/market-data";
+import { PageSection } from "@/components/ui/page-section";
 import { portfolioText } from "@/content/trading";
-import { getMarkets } from "@/lib/coingecko";
 import { PortfolioPanel } from "./portfolio-panel";
 
-export async function Portfolio() {
-  const coins = await getMarkets();
-
+export function Portfolio() {
   return (
-    <section className="flex flex-col gap-8 px-6 py-10 lg:px-10">
-      <PageHeading title={portfolioText.title} description={portfolioText.description} />
-      <PortfolioPanel coins={coins} />
-    </section>
+    <PageSection title={portfolioText.title} description={portfolioText.description}>
+      <MarketData>{(coins) => <PortfolioPanel coins={coins} />}</MarketData>
+    </PageSection>
   );
 }

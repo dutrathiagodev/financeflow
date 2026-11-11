@@ -1,15 +1,12 @@
-import { PageHeading } from "@/components/ui/page-heading";
+import { MarketData } from "@/components/data/market-data";
+import { PageSection } from "@/components/ui/page-section";
 import { tradeText } from "@/content/trading";
-import { getMarkets } from "@/lib/coingecko";
 import { TradePanel } from "./trade-panel";
 
-export async function Trade() {
-  const coins = await getMarkets();
-
+export function Trade() {
   return (
-    <section className="flex flex-col gap-8 px-6 py-10 lg:px-10">
-      <PageHeading title={tradeText.title} description={tradeText.description} />
-      {coins.length === 0 ? <p className="text-ink-muted">{tradeText.unavailable}</p> : <TradePanel coins={coins} />}
-    </section>
+    <PageSection title={tradeText.title} description={tradeText.description}>
+      <MarketData>{(coins) => <TradePanel coins={coins} />}</MarketData>
+    </PageSection>
   );
 }

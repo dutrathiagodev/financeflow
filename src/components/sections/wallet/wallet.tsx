@@ -1,15 +1,12 @@
-import { PageHeading } from "@/components/ui/page-heading";
+import { MarketData } from "@/components/data/market-data";
+import { PageSection } from "@/components/ui/page-section";
 import { walletText } from "@/content/trading";
-import { getMarkets } from "@/lib/coingecko";
 import { WalletPanel } from "./wallet-panel";
 
-export async function Wallet() {
-  const coins = await getMarkets();
-
+export function Wallet() {
   return (
-    <section className="flex flex-col gap-8 px-6 py-10 lg:px-10">
-      <PageHeading title={walletText.title} description={walletText.description} />
-      <WalletPanel coins={coins} />
-    </section>
+    <PageSection title={walletText.title} description={walletText.description}>
+      <MarketData>{(coins) => <WalletPanel coins={coins} />}</MarketData>
+    </PageSection>
   );
 }
