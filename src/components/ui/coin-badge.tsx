@@ -1,22 +1,20 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
-import type { Coin } from "@/types/market";
 
 type CoinBadgeProps = {
-  coin: Coin;
+  image: string;
+  name: string;
   className?: string;
 };
 
-export function CoinBadge({ coin, className }: CoinBadgeProps) {
+export function CoinBadge({ image, name, className }: CoinBadgeProps) {
   return (
-    <span
-      aria-hidden="true"
-      className={cn(
-        "grid size-8 shrink-0 place-items-center rounded-full text-sm font-semibold text-white",
-        className,
-      )}
-      style={{ backgroundColor: coin.color }}
-    >
-      {coin.glyph}
-    </span>
+    <Image
+      src={image}
+      alt={`Logo ${name}`}
+      width={64}
+      height={64}
+      className={cn("size-8 shrink-0 rounded-full", className)}
+    />
   );
 }
