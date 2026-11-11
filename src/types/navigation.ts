@@ -10,7 +10,6 @@ export type NavItem = {
   href: string;
   icon: IconName;
   badge?: NavBadge;
-  active?: boolean;
 };
 
 export type NavGroup = {

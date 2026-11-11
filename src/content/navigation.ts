@@ -7,48 +7,59 @@ export const brand = {
 
 export const welcome = {
   greeting: "Bem-vindo",
-  name: "de volta, Jason",
-  lastLogin: "Último acesso: 15 jun 2025",
+  lastLogin: "Seus dados ficam salvos neste navegador",
 };
 
 export const navGroups: NavGroup[] = [
   {
     title: "Visão geral",
-    items: [{ label: "Dashboard", href: "/", icon: "dashboard", active: true }],
+    items: [{ label: "Dashboard", href: "/", icon: "dashboard" }],
   },
   {
     title: "Conta",
     items: [
-      { label: "Portfólio", href: "#", icon: "portfolio", badge: { kind: "dot" } },
-      { label: "Carteira", href: "#", icon: "wallet" },
-      { label: "Favoritos", href: "#", icon: "watchlist" },
+      { label: "Portfólio", href: "/portfolio", icon: "portfolio" },
+      { label: "Carteira", href: "/wallet", icon: "wallet" },
+      { label: "Favoritos", href: "/watchlist", icon: "watchlist" },
     ],
   },
   {
     title: "Atividade",
     items: [
-      { label: "Negociar", href: "#", icon: "trade" },
-      { label: "Transações", href: "#", icon: "transactions" },
+      { label: "Negociar", href: "/trade", icon: "trade" },
+      { label: "Transações", href: "/transactions", icon: "transactions" },
     ],
   },
   {
     title: "Mais",
     items: [
-      { label: "Insights", href: "#", icon: "insights" },
+      { label: "Insights", href: "/insights", icon: "insights" },
       {
         label: "Análises",
-        href: "#",
+        href: "/analytics",
         icon: "analytics",
         badge: { kind: "tag", label: "Beta" },
       },
-      { label: "Tendências", href: "#", icon: "trends" },
+      { label: "Tendências", href: "/trends", icon: "trends" },
     ],
   },
   {
     title: "Suporte",
     items: [
-      { label: "Ajuda", href: "#", icon: "support", badge: { kind: "count", value: 2 } },
-      { label: "Configurações", href: "#", icon: "settings" },
+      { label: "Ajuda", href: "/support", icon: "support" },
+      { label: "Configurações", href: "/settings", icon: "settings" },
     ],
   },
 ];
+
+export const sidebarText = {
+  collapse: "Recolher menu",
+  expand: "Expandir menu",
+  mainNav: "Principal",
+};
+
+export const searchText = {
+  placeholder: "Buscar moedas...",
+  label: "Buscar moedas",
+  home: "Visão geral",
+};
