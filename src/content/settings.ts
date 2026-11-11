@@ -1,0 +1,16 @@
+export const settingsText = {
+  title: "Configurações",
+  description: "Preferências salvas neste navegador.",
+  profileTitle: "Perfil",
+  nameLabel: "Seu nome",
+  save: "Salvar",
+  saved: "Nome atualizado.",
+  dataTitle: "Dados",
+  clearFavorites: "Limpar favoritos",
+  favoritesCleared: "Favoritos removidos.",
+  resetAccount: "Zerar conta simulada",
+  accountReset: "Conta reiniciada.",
+  resetConfirm: "Isso apaga saldo, posições e histórico. Confirmar?",
+  export: "Exportar dados (JSON)",
+  about: "Cotações fornecidas pela CoinGecko. As operações são uma simulação educativa.",
+};

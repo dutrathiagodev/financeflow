@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 export function Sidebar() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useLocalStore<boolean>("ff:sidebar-collapsed", false);
-  const [profile] = useLocalStore("ff:profile", { name: "Jason" });
+  const [profile] = useLocalStore("ff:profile", { name: "Investidor" });
 
   return (
     <aside
