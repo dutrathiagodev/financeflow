@@ -1,17 +1,12 @@
 import { NextResponse } from "next/server";
-import { getCoinHistory } from "@/lib/coingecko";
-
-const ALLOWED_DAYS = new Set([1, 7, 30, 90, 365]);
+import { getHistory } from "@/infrastructure/composition";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const id = searchParams.get("id") ?? "";
-  const days = Number(searchParams.get("days"));
+  const result = await getHistory(searchParams.get("id") ?? "", Number(searchParams.get("days")));
 
-  if (!/^[a-z0-9-]{1,64}$/.test(id) || !ALLOWED_DAYS.has(days)) {
-    return NextResponse.json({ error: "Parâmetros inválidos" }, { status: 400 });
-  }
+  if (result.ok) return NextResponse.json({ points: result.value });
 
-  const points = await getCoinHistory(id, days);
-  return NextResponse.json({ points });
+  const status = result.error === "invalid-request" ? 400 : 502;
+  return NextResponse.json({ error: result.error }, { status });
 }
