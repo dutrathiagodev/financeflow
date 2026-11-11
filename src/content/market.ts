@@ -1,21 +1,21 @@
+import type { TrendFilter } from "@/domain/market/coin-queries";
+
 export const dashboardHeader = {
-  breadcrumb: ["Visão geral", "Dashboard"],
-  searchPlaceholder: "Buscar...",
-  lastUpdateLabel: "Dados:",
-  lastUpdateValue: "CoinGecko · atualiza a cada minuto",
+  sourceLabel: "Dados:",
+  sourceValue: "CoinGecko · atualiza a cada minuto",
   title: "Cotações de cripto ao vivo",
 };
 
-export const marketFilters = [
+export const marketFilters: { id: TrendFilter; label: string }[] = [
   { id: "all", label: "Todos" },
   { id: "gainers", label: "Ganhos" },
   { id: "losers", label: "Perdas" },
-] as const;
+];
 
 export const marketOverview = {
   eyebrow: "Atualizações ao vivo",
   title: "Visão do mercado",
-  unavailable: "Não foi possível carregar as cotações agora. Tente novamente em instantes.",
+  filterLabel: "Filtrar por desempenho em 24h",
   empty: "Nenhuma moeda neste filtro.",
   columns: {
     rank: "Nº",
@@ -25,4 +25,9 @@ export const marketOverview = {
     change24h: "24H%",
     favorite: "Favorito",
   },
+};
+
+export const priceCardText = {
+  pair: (symbol: string) => `${symbol}/USD`,
+  price: "Preço",
 };

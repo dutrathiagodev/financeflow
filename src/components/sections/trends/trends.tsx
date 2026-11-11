@@ -1,22 +1,19 @@
 import { Suspense } from "react";
-import { PageHeading } from "@/components/ui/page-heading";
+import { MarketData } from "@/components/data/market-data";
+import { PageSection } from "@/components/ui/page-section";
 import { trendsText } from "@/content/trends";
-import { getMarkets } from "@/lib/coingecko";
 import { TrendsExplorer } from "./trends-explorer";
 
-export async function Trends() {
-  const coins = await getMarkets();
-
+export function Trends() {
   return (
-    <section className="flex flex-col gap-8 px-6 py-10 lg:px-10">
-      <PageHeading title={trendsText.title} description={trendsText.description} />
-      {coins.length === 0 ? (
-        <p className="text-ink-muted">{trendsText.unavailable}</p>
-      ) : (
-        <Suspense>
-          <TrendsExplorer coins={coins} />
-        </Suspense>
-      )}
-    </section>
+    <PageSection title={trendsText.title} description={trendsText.description}>
+      <MarketData>
+        {(coins) => (
+          <Suspense>
+            <TrendsExplorer coins={coins} />
+          </Suspense>
+        )}
+      </MarketData>
+    </PageSection>
   );
 }

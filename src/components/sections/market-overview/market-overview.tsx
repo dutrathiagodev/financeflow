@@ -1,16 +1,11 @@
+import { MarketData } from "@/components/data/market-data";
 import { Icon } from "@/components/ui/icon";
 import { marketOverview } from "@/content/market";
-import { getMarkets } from "@/lib/coingecko";
 import { MarketTable } from "./market-table";
 
-export async function MarketOverview() {
-  const coins = await getMarkets();
-
+export function MarketOverview() {
   return (
-    <section
-      aria-labelledby="market-overview-title"
-      className="mx-6 border-t border-line py-10 lg:mx-10"
-    >
+    <section aria-labelledby="market-overview-title" className="mx-6 border-t border-line py-10 lg:mx-10">
       <div className="mb-6">
         <p className="flex items-center gap-2 text-sm text-ink-muted">
           <Icon name="clock" className="size-4" />
@@ -20,11 +15,7 @@ export async function MarketOverview() {
           {marketOverview.title}
         </h2>
       </div>
-      {coins.length === 0 ? (
-        <p className="text-ink-muted">{marketOverview.unavailable}</p>
-      ) : (
-        <MarketTable coins={coins} />
-      )}
+      <MarketData>{(coins) => <MarketTable coins={coins} />}</MarketData>
     </section>
   );
 }

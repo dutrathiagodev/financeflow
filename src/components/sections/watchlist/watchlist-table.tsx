@@ -1,12 +1,14 @@
 "use client";
 
+import { useFavorites } from "@/application/hooks/use-favorites";
 import { CoinTable } from "@/components/ui/coin-table";
+import { Skeleton } from "@/components/ui/skeleton";
 import { watchlistText } from "@/content/watchlist";
-import { useFavorites } from "@/lib/use-favorites";
-import type { MarketCoin } from "@/types/market";
+import type { MarketCoin } from "@/domain/market/types";
 
 export function WatchlistTable({ coins }: { coins: MarketCoin[] }) {
-  const { ids } = useFavorites();
-  const rows = coins.filter((c) => ids.includes(c.id));
-  return <CoinTable coins={rows} emptyText={watchlistText.empty} />;
+  const { ids, ready } = useFavorites();
+  if (!ready) return <Skeleton className="h-48" />;
+
+  return <CoinTable coins={coins.filter((coin) => ids.includes(coin.id))} emptyText={watchlistText.empty} />;
 }

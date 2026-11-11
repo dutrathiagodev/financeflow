@@ -1,43 +1,30 @@
 "use client";
 
 import { useState } from "react";
-import { CoinTable, type SortKey } from "@/components/ui/coin-table";
-import { marketFilters } from "@/content/market";
-import { cn } from "@/lib/utils";
-import type { MarketCoin } from "@/types/market";
+import { CoinTable } from "@/components/ui/coin-table";
+import { SegmentedTabs } from "@/components/ui/segmented-tabs";
+import { marketFilters, marketOverview } from "@/content/market";
+import { filterByTrend, sortCoins, type SortKey, type TrendFilter } from "@/domain/market/coin-queries";
+import type { MarketCoin } from "@/domain/market/types";
+
+const VISIBLE_ROWS = 15;
+
+type Sort = { key: SortKey; descending: boolean };
 
 export function MarketTable({ coins }: { coins: MarketCoin[] }) {
-  const [filter, setFilter] = useState<(typeof marketFilters)[number]["id"]>("all");
-  const [sort, setSort] = useState<{ key: SortKey; desc: boolean }>({ key: "rank", desc: false });
+  const [filter, setFilter] = useState<TrendFilter>("all");
+  const [sort, setSort] = useState<Sort>({ key: "rank", descending: false });
 
-  const rows = coins
-    .filter((c) => (filter === "gainers" ? c.change24h > 0 : filter === "losers" ? c.change24h < 0 : true))
-    .sort((a, b) => (sort.desc ? -1 : 1) * (a[sort.key] - b[sort.key]))
-    .slice(0, 15);
+  const rows = sortCoins(filterByTrend(coins, filter), sort.key, sort.descending).slice(0, VISIBLE_ROWS);
 
+  // Mesma coluna inverte a direção; coluna nova começa em ordem natural (preço: maior primeiro).
   const toggleSort = (key: SortKey) =>
-    setSort((s) => ({ key, desc: s.key === key ? !s.desc : key === "price" }));
+    setSort((current) => ({ key, descending: current.key === key ? !current.descending : key === "price" }));
 
   return (
-    <>
-      <ul className="mb-6 flex gap-2">
-        {marketFilters.map((item) => (
-          <li key={item.id}>
-            <button
-              type="button"
-              aria-pressed={filter === item.id}
-              onClick={() => setFilter(item.id)}
-              className={cn(
-                "rounded-control px-5 py-3 text-lg transition-colors",
-                filter === item.id ? "bg-accent-soft text-ink" : "text-ink-muted hover:text-ink",
-              )}
-            >
-              {item.label}
-            </button>
-          </li>
-        ))}
-      </ul>
+    <div className="flex flex-col gap-6">
+      <SegmentedTabs options={marketFilters} value={filter} onChange={setFilter} label={marketOverview.filterLabel} />
       <CoinTable coins={rows} onSort={toggleSort} />
-    </>
+    </div>
   );
 }
