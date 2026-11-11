@@ -7,7 +7,7 @@ const TICKER_SIZE = 10;
 
 export function Ticker() {
   return (
-    <MarketData fallback={null}>
+    <MarketData fallback={null} loading={null}>
       {(allCoins) => {
         const coins = allCoins.slice(0, TICKER_SIZE);
         // A lista é duplicada para a animação rolar sem emenda; a cópia fica oculta para leitores de tela.
