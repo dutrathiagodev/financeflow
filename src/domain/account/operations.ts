@@ -4,8 +4,10 @@ import type { Account, AccountError, AssetQuote, Holding, OperationMeta, Transac
 
 export const INITIAL_CASH = 10_000;
 
-export function createAccount(): Account {
-  return { cash: INITIAL_CASH, holdings: [], transactions: [] };
+/** Conta nova com o saldo informado (ou o padrão, se o valor for inválido). */
+export function createAccount(initialCash: number = INITIAL_CASH): Account {
+  const cash = isPositiveNumber(initialCash) ? roundUsd(initialCash) : INITIAL_CASH;
+  return { cash, holdings: [], transactions: [] };
 }
 
 type OperationResult = Result<Account, AccountError>;

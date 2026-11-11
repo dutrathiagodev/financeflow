@@ -104,3 +104,10 @@ describe("sell", () => {
     expect(sell(withBtc(), btc, -1, meta)).toEqual({ ok: false, error: "invalid-amount" });
   });
 });
+
+describe("createAccount com saldo inicial", () => {
+  it("usa o saldo informado e cai no padrão se inválido", () => {
+    expect(createAccount(50_000).cash).toBe(50_000);
+    for (const value of [0, -1, NaN]) expect(createAccount(value).cash).toBe(INITIAL_CASH);
+  });
+});
