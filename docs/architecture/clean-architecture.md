@@ -28,7 +28,14 @@ infrastructure ----------+   (implementa as portas definidas em application)
 - `application` importa `domain`. Define portas (ex.: `MarketRepository`).
 - `infrastructure` implementa as portas e importa `domain` e `application/ports`.
 - `components` importam `application`, `domain` (tipos e funções puras), `content` e `lib`.
-- Só `src/app` e a composição em `application/market` conhecem o adaptador concreto.
+- O adaptador concreto da CoinGecko só é ligado em `infrastructure/composition.ts`, usado por `components/data/market-data.tsx` e pela rota `app/api/history`.
+
+### Exceção documentada
+
+Os hooks de `application/hooks` persistem estado no navegador usando `infrastructure/storage` diretamente
+(via `usePersistedState`). Isso é um desvio consciente da regra: no cliente, o storage faz parte do runtime
+de UI e abstraí-lo com uma porta extra só adicionaria indireção. A regra de negócio continua toda em
+`domain`, e os hooks apenas orquestram: leem o estado, chamam uma função pura e gravam o resultado.
 
 ## Onde fica cada lógica
 
@@ -43,7 +50,9 @@ infrastructure ----------+   (implementa as portas definidas em application)
 | Validação do que vem do storage | `domain/account/parse.ts` |
 | HTTP da CoinGecko | `infrastructure/coingecko/` |
 | localStorage reativo | `infrastructure/storage/` |
-| Estado da conta, favoritos, perfil | `application/hooks/` |
+| Estado da conta, favoritos, perfil, tickets | `application/hooks/` |
+| Casos de uso de mercado (+ porta `MarketRepository`) | `application/market/`, `application/ports/` |
+| Ligação porta → adaptador | `infrastructure/composition.ts` |
 
 ## Regras de qualidade
 

@@ -4,6 +4,8 @@ Documento normativo do projeto de landing page com React, Next.js e Tailwind CSS
 
 ## Escopo
 
+Veja também `clean-architecture.md`, que define as camadas `domain`, `application` e `infrastructure` e onde cada lógica deve ficar.
+
 Define a stack, a estrutura de pastas, o fluxo de dependencia e as regras de composicao da UI. Toda nova secao ou pagina deve seguir este spec.
 
 ## Stack obrigatoria
