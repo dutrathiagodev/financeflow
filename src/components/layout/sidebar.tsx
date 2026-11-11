@@ -1,15 +1,8 @@
+import { BrandMark } from "@/components/ui/brand-mark";
 import { Icon } from "@/components/ui/icon";
 import { NavBadgeView } from "@/components/ui/nav-badge";
 import { brand, navGroups, welcome } from "@/content/navigation";
 import { cn } from "@/lib/utils";
-
-function BrandMark() {
-  return (
-    <svg viewBox="0 0 32 32" aria-hidden="true" className="size-9 text-ink-muted">
-      <path fill="currentColor" d="M4 14l9-9 4 4-5 5 5 5-4 4zM20 6l8 8-6 6-4-4 3-4-4-4z" />
-    </svg>
-  );
-}
 
 export function Sidebar() {
   return (
@@ -17,8 +10,11 @@ export function Sidebar() {
       <div className="flex items-center gap-3 border-b border-line pb-5">
         <BrandMark />
         <div className="leading-tight">
-          <p className="font-medium">{brand.name}</p>
-          <p className="text-sm text-ink-faint">{brand.tagline}</p>
+          <p className="text-lg font-semibold">
+            {brand.nameStart}
+            <span className="text-accent">{brand.nameEnd}</span>
+          </p>
+          <p className="text-xs uppercase tracking-widest text-brand-mint/70">{brand.tagline}</p>
         </div>
         <button
           type="button"

@@ -1,8 +1,9 @@
 import type { NavGroup } from "@/types/navigation";
 
 export const brand = {
-  name: "FinanceFlow",
-  tagline: "Investimentos com IA",
+  nameStart: "Finance",
+  nameEnd: "Flow",
+  tagline: "Controle financeiro",
 };
 
 export const welcome = {
