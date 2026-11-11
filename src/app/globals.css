@@ -46,26 +46,39 @@ body {
   }
 }
 
-/* Barras de rolagem finas, no tom do tema */
+/* Barras de rolagem finas, escuras e no tom do tema */
+:root {
+  color-scheme: dark;
+}
+
+html,
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgb(227 232 218 / 0.18) transparent;
+  scrollbar-color: rgb(155 207 134 / 0.35) transparent;
 }
 
 *::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
-*::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track,
+*::-webkit-scrollbar-corner {
   background: transparent;
 }
 
+*::-webkit-scrollbar-button {
+  display: none;
+}
+
 *::-webkit-scrollbar-thumb {
-  background: rgb(227 232 218 / 0.18);
+  background: rgb(155 207 134 / 0.28);
+  border: 3px solid transparent;
+  background-clip: padding-box;
   border-radius: 999px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: rgb(227 232 218 / 0.32);
+  background: rgb(155 207 134 / 0.5);
+  background-clip: padding-box;
 }
