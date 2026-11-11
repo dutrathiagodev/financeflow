@@ -8,3 +8,12 @@ export function downloadJson(fileName: string, data: unknown): void {
   link.click();
   URL.revokeObjectURL(url);
 }
+
+/** Lê um arquivo como JSON. Retorna undefined se o conteúdo não for JSON válido. */
+export async function readJsonFile(file: File): Promise<unknown> {
+  try {
+    return JSON.parse(await file.text());
+  } catch {
+    return undefined;
+  }
+}

@@ -2,8 +2,9 @@
 
 import { useState, type FormEvent } from "react";
 import { useProfile } from "@/application/hooks/use-profile";
+import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { SettingsCard } from "@/components/ui/settings-card";
 import { StatusMessage, type Feedback } from "@/components/ui/status-message";
 import { TextField } from "@/components/ui/text-field";
 import { settingsText } from "@/content/settings";
@@ -14,29 +15,36 @@ export function ProfileForm() {
   // null = ainda não editado; mostra o nome salvo.
   const [draft, setDraft] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<Feedback | null>(null);
+  const text = settingsText.profile;
+  const name = draft ?? profile.name;
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
-    const result = rename(draft ?? profile.name);
+    const result = rename(name);
     if (result.ok) setDraft(null);
-    setFeedback({ ok: result.ok, text: result.ok ? settingsText.profile.saved : settingsText.profile.empty });
+    setFeedback({ ok: result.ok, text: result.ok ? text.saved : text.empty });
   };
 
   return (
-    <Card>
+    <SettingsCard icon="user" title={text.title} description={text.description}>
       <form onSubmit={submit} className="flex flex-col gap-4">
-        <h2 className="text-xl font-medium">{settingsText.profile.title}</h2>
-        <TextField
-          label={settingsText.profile.nameLabel}
-          value={draft ?? profile.name}
-          onChange={(event) => setDraft(event.target.value)}
-          maxLength={MAX_NAME_LENGTH}
-        />
-        <Button type="submit" className="self-start">
-          {settingsText.profile.save}
-        </Button>
-        <StatusMessage feedback={feedback} />
+        <div className="flex items-center gap-4">
+          <Avatar name={name} />
+          <div className="flex-1">
+            <TextField
+              label={text.nameLabel}
+              value={name}
+              onChange={(event) => setDraft(event.target.value)}
+              maxLength={MAX_NAME_LENGTH}
+              className="w-full"
+            />
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-4">
+          <Button type="submit">{text.save}</Button>
+          <StatusMessage feedback={feedback} />
+        </div>
       </form>
-    </Card>
+    </SettingsCard>
   );
 }
