@@ -13,7 +13,7 @@ function BrandMark() {
 
 export function Sidebar() {
   return (
-    <aside className="hidden w-72 shrink-0 flex-col overflow-y-auto border-r border-line bg-linear-to-b from-[#16172a] via-panel to-panel px-5 py-6 lg:flex">
+    <aside className="hidden w-72 shrink-0 flex-col overflow-y-auto border-r border-line bg-linear-to-b from-[#1b3023] via-panel to-panel px-5 py-6 lg:flex">
       <div className="flex items-center gap-3 border-b border-line pb-5">
         <BrandMark />
         <div className="leading-tight">

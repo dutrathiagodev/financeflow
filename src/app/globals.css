@@ -1,18 +1,23 @@
 @import "tailwindcss";
 
 @theme {
-  --color-canvas: #060608;
-  --color-panel: #0b0b10;
-  --color-panel-raised: #101018;
+  --color-canvas: #080e0a;
+  --color-panel: #0d1510;
+  --color-panel-raised: #121c16;
   --color-line: rgb(255 255 255 / 0.08);
   --color-line-strong: rgb(255 255 255 / 0.14);
-  --color-ink: #f4f4f8;
-  --color-ink-muted: #8d8fa6;
-  --color-ink-faint: #5f6177;
-  --color-accent: #8b8dff;
-  --color-accent-soft: rgb(139 141 255 / 0.16);
-  --color-up: #3ddc84;
-  --color-up-soft: rgb(61 220 132 / 0.14);
+  --color-ink: #e3e8da;
+  --color-ink-muted: #8e9c86;
+  --color-ink-faint: #5d6b58;
+  --color-accent: #9bcf86;
+  --color-accent-soft: rgb(127 166 83 / 0.2);
+  --color-brand-dark: #26382b;
+  --color-brand-mid: #63783d;
+  --color-brand-leaf: #7fa653;
+  --color-brand-mint: #cfe0bc;
+  --color-brand-cream: #e3e8da;
+  --color-up: #7fd68a;
+  --color-up-soft: rgb(127 214 138 / 0.14);
   --color-down: #ff5c5c;
   --color-down-soft: rgb(255 92 92 / 0.14);
   --color-btc: #f7931a;
@@ -22,7 +27,7 @@
 
   --radius-card: 28px;
   --radius-control: 14px;
-  --shadow-glow: 0 0 80px -20px rgb(139 141 255 / 0.35);
+  --shadow-glow: 0 0 80px -20px rgb(127 166 83 / 0.35);
 }
 
 body {
@@ -39,4 +44,28 @@ body {
       transform: translateX(-50%);
     }
   }
+}
+
+/* Barras de rolagem finas, no tom do tema */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(227 232 218 / 0.18) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgb(227 232 218 / 0.18);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgb(227 232 218 / 0.32);
 }
