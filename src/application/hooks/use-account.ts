@@ -3,7 +3,7 @@
 import { usePersistedState } from "./use-persisted-state";
 import { buy, createAccount, deposit, sell, withdraw } from "@/domain/account/operations";
 import { parseAccount } from "@/domain/account/parse";
-import type { AssetQuote, OperationMeta } from "@/domain/account/types";
+import type { Account, AssetQuote, OperationMeta } from "@/domain/account/types";
 
 const INITIAL_ACCOUNT = createAccount();
 
@@ -22,6 +22,7 @@ export function useAccount() {
     withdraw: (usd: number) => transact((a) => withdraw(a, usd, newMeta())),
     buy: (quote: AssetQuote, usd: number) => transact((a) => buy(a, quote, usd, newMeta())),
     sell: (quote: AssetQuote, quantity: number) => transact((a) => sell(a, quote, quantity, newMeta())),
-    reset: () => set(createAccount()),
+    reset: (initialCash?: number) => set(createAccount(initialCash)),
+    replace: (next: Account) => set(next),
   };
 }

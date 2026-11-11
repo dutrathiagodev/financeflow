@@ -14,5 +14,6 @@ export function useFavorites() {
     has: (id: string) => ids.includes(id),
     toggle: (id: string) => transact((current) => ({ ok: true, value: toggleFavorite(current, id) })),
     clear: () => set([]),
+    replace: (next: string[]) => set(next),
   };
 }
