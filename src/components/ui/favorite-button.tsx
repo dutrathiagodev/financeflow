@@ -1,7 +1,8 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import { useFavorites } from "@/lib/use-favorites";
+import { commonText } from "@/content/common";
+import { useFavorites } from "@/application/hooks/use-favorites";
 import { cn } from "@/lib/utils";
 
 export function FavoriteButton({ id, name }: { id: string; name: string }) {
@@ -13,7 +14,7 @@ export function FavoriteButton({ id, name }: { id: string; name: string }) {
       type="button"
       onClick={() => toggle(id)}
       aria-pressed={active}
-      aria-label={active ? `Remover ${name} dos favoritos` : `Favoritar ${name}`}
+      aria-label={commonText.favoriteLabel(name, active)}
       className={cn(
         "grid size-9 place-items-center rounded-control transition-colors hover:bg-white/5",
         active ? "text-accent" : "text-ink-faint hover:text-ink",
