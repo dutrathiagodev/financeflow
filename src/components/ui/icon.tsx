@@ -25,6 +25,11 @@ const paths = {
   sort: "M8 9l4-4 4 4M8 15l4 4 4-4",
   bell: "M6 17V11a6 6 0 1 1 12 0v6l2 2H4zM10 21h4",
   menu: "M4 7h16M4 12h16M4 17h16",
+  user: "M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8M4 20a8 8 0 0 1 16 0",
+  sliders: "M4 7h9M17 7h3M4 17h3M11 17h9M15 4v6M9 14v6",
+  database: "M5 6c0-1.7 3.1-3 7-3s7 1.3 7 3-3.1 3-7 3-7-1.3-7-3M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6",
+  trash: "M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13M10 11v6M14 11v6",
+  plus: "M12 5v14M5 12h14",
   close: "M6 6l12 12M18 6L6 18",
 } as const;
 
