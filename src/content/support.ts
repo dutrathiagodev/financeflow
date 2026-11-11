@@ -2,14 +2,15 @@ export const supportText = {
   title: "Ajuda",
   description: "Perguntas frequentes e um canal para enviar sua dúvida.",
   faqTitle: "Perguntas frequentes",
-  formTitle: "Fale com a gente",
-  subject: "Assunto",
-  message: "Mensagem",
-  send: "Enviar",
-  sent: "Mensagem registrada. Ela fica salva neste navegador.",
-  ticketsTitle: "Suas mensagens",
-  noTickets: "Você ainda não enviou nenhuma mensagem.",
-  required: "Preencha assunto e mensagem.",
+  form: {
+    title: "Fale com a gente",
+    subject: "Assunto",
+    message: "Mensagem",
+    send: "Enviar",
+    sent: "Mensagem registrada. Ela fica salva neste navegador.",
+    missingFields: "Preencha assunto e mensagem.",
+  },
+  tickets: { title: "Suas mensagens", empty: "Você ainda não enviou nenhuma mensagem." },
 };
 
 export const faq = [

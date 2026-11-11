@@ -1,12 +1,15 @@
-import { PageHeading } from "@/components/ui/page-heading";
+import { PageSection } from "@/components/ui/page-section";
 import { settingsText } from "@/content/settings";
-import { SettingsPanel } from "./settings-panel";
+import { DataControls } from "./data-controls";
+import { ProfileForm } from "./profile-form";
 
 export function Settings() {
   return (
-    <section className="flex flex-col gap-8 px-6 py-10 lg:px-10">
-      <PageHeading title={settingsText.title} description={settingsText.description} />
-      <SettingsPanel />
-    </section>
+    <PageSection title={settingsText.title} description={settingsText.description}>
+      <div className="grid max-w-3xl gap-6">
+        <ProfileForm />
+        <DataControls />
+      </div>
+    </PageSection>
   );
 }

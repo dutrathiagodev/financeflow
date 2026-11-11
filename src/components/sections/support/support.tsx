@@ -1,12 +1,19 @@
-import { PageHeading } from "@/components/ui/page-heading";
+import { PageSection } from "@/components/ui/page-section";
 import { supportText } from "@/content/support";
-import { SupportPanel } from "./support-panel";
+import { ContactForm } from "./contact-form";
+import { FaqList } from "./faq-list";
+import { TicketList } from "./ticket-list";
 
 export function Support() {
   return (
-    <section className="flex flex-col gap-8 px-6 py-10 lg:px-10">
-      <PageHeading title={supportText.title} description={supportText.description} />
-      <SupportPanel />
-    </section>
+    <PageSection title={supportText.title} description={supportText.description}>
+      <div className="grid gap-6 lg:grid-cols-2">
+        <FaqList />
+        <div className="flex flex-col gap-6">
+          <ContactForm />
+          <TicketList />
+        </div>
+      </div>
+    </PageSection>
   );
 }
