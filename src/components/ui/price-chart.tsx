@@ -58,7 +58,7 @@ export function PriceChart({ points, tone, className }: PriceChartProps) {
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
         role="img"
         aria-label="Gráfico de preço. Passe o mouse para ver os valores."
-        className="h-auto w-full cursor-crosshair"
+        className="h-auto w-full cursor-crosshair overflow-visible"
         onPointerMove={onMove}
         onPointerDown={onMove}
         onPointerLeave={() => setActive(null)}
@@ -74,13 +74,9 @@ export function PriceChart({ points, tone, className }: PriceChartProps) {
         {active !== null && (
           <line x1={point.x} x2={point.x} y1={0} y2={HEIGHT} stroke="var(--color-line-strong)" strokeDasharray="3 3" />
         )}
+        {/* Desenhado dentro do SVG, sem transição, para ficar sempre exatamente sobre a linha. */}
+        <circle cx={point.x} cy={point.y} r={4.5} fill="var(--color-canvas)" stroke={color} strokeWidth={1.8} />
       </svg>
-
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute size-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 bg-canvas transition-[left,top] duration-75"
-        style={{ left: `${left}%`, top: `${top}%`, borderColor: color }}
-      />
 
       {active !== null && (
         <div
