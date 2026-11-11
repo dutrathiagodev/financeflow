@@ -24,6 +24,8 @@ const paths = {
   arrowUpRight: "M7 17L17 7M9 7h8v8",
   sort: "M8 9l4-4 4 4M8 15l4 4 4-4",
   bell: "M6 17V11a6 6 0 1 1 12 0v6l2 2H4zM10 21h4",
+  menu: "M4 7h16M4 12h16M4 17h16",
+  close: "M6 6l12 12M18 6L6 18",
 } as const;
 
 export type IconName = keyof typeof paths;

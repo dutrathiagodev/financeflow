@@ -7,7 +7,8 @@ export const brand = {
 
 export const welcome = {
   greeting: "Bem-vindo",
-  lastLogin: "Seus dados ficam salvos neste navegador",
+  returning: (name: string) => `de volta, ${name}`,
+  note: "Seus dados ficam salvos neste navegador",
 };
 
 export const navGroups: NavGroup[] = [
@@ -34,12 +35,7 @@ export const navGroups: NavGroup[] = [
     title: "Mais",
     items: [
       { label: "Insights", href: "/insights", icon: "insights" },
-      {
-        label: "Análises",
-        href: "/analytics",
-        icon: "analytics",
-        badge: { kind: "tag", label: "Beta" },
-      },
+      { label: "Análises", href: "/analytics", icon: "analytics", badge: { kind: "tag", label: "Beta" } },
       { label: "Tendências", href: "/trends", icon: "trends" },
     ],
   },
@@ -52,14 +48,13 @@ export const navGroups: NavGroup[] = [
   },
 ];
 
-export const sidebarText = {
+export const layoutText = {
   collapse: "Recolher menu",
   expand: "Expandir menu",
+  openMenu: "Abrir menu",
+  closeMenu: "Fechar menu",
   mainNav: "Principal",
-};
-
-export const searchText = {
-  placeholder: "Buscar moedas...",
-  label: "Buscar moedas",
+  breadcrumbLabel: "Breadcrumb",
   home: "Visão geral",
+  search: { label: "Buscar moedas", placeholder: "Buscar moedas..." },
 };
