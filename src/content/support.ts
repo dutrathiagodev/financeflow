@@ -20,7 +20,7 @@ export const faq = [
   },
   {
     question: "As compras e vendas usam dinheiro real?",
-    answer: "Não. Tudo é uma simulação com saldo fictício de US$ 10.000, pensada para aprender sem risco.",
+    answer: "Não. Tudo é uma simulação com saldo fictício (padrão de US$ 10.000, ajustável em Configurações), pensada para aprender sem risco.",
   },
   {
     question: "Onde ficam meus dados?",

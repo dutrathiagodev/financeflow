@@ -1,21 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import { useSettings } from "@/application/hooks/use-settings";
 import { CoinTable } from "@/components/ui/coin-table";
 import { SegmentedTabs } from "@/components/ui/segmented-tabs";
 import { marketFilters, marketOverview } from "@/content/market";
 import { filterByTrend, sortCoins, type SortKey, type TrendFilter } from "@/domain/market/coin-queries";
 import type { MarketCoin } from "@/domain/market/types";
 
-const VISIBLE_ROWS = 15;
-
 type Sort = { key: SortKey; descending: boolean };
 
 export function MarketTable({ coins }: { coins: MarketCoin[] }) {
+  const { settings } = useSettings();
   const [filter, setFilter] = useState<TrendFilter>("all");
   const [sort, setSort] = useState<Sort>({ key: "rank", descending: false });
 
-  const rows = sortCoins(filterByTrend(coins, filter), sort.key, sort.descending).slice(0, VISIBLE_ROWS);
+  const rows = sortCoins(filterByTrend(coins, filter), sort.key, sort.descending).slice(0, settings.tableRows);
 
   // Mesma coluna inverte a direção; coluna nova começa em ordem natural (preço: maior primeiro).
   const toggleSort = (key: SortKey) =>
