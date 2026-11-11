@@ -1,9 +1,8 @@
 import type { NavGroup } from "@/types/navigation";
 
 export const brand = {
-  nameStart: "Finance",
-  nameEnd: "Flow",
-  tagline: "Controle financeiro",
+  logo: "/images/financeflow-logo.png",
+  logoAlt: "FinanceFlow — Controle financeiro",
 };
 
 export const welcome = {

@@ -1,4 +1,4 @@
-import { BrandMark } from "@/components/ui/brand-mark";
+import Image from "next/image";
 import { Icon } from "@/components/ui/icon";
 import { NavBadgeView } from "@/components/ui/nav-badge";
 import { brand, navGroups, welcome } from "@/content/navigation";
@@ -8,18 +8,20 @@ export function Sidebar() {
   return (
     <aside className="hidden w-72 shrink-0 flex-col overflow-y-auto border-r border-line bg-linear-to-b from-[#1b3023] via-panel to-panel px-5 py-6 lg:flex">
       <div className="flex items-center gap-3 border-b border-line pb-5">
-        <BrandMark />
-        <div className="leading-tight">
-          <p className="text-lg font-semibold">
-            {brand.nameStart}
-            <span className="text-accent">{brand.nameEnd}</span>
-          </p>
-          <p className="text-xs uppercase tracking-widest text-brand-mint/70">{brand.tagline}</p>
+        <div className="relative aspect-[3.4/1] flex-1 overflow-hidden rounded-2xl bg-brand-dark">
+          <Image
+            src={brand.logo}
+            alt={brand.logoAlt}
+            fill
+            sizes="200px"
+            priority
+            className="scale-[1.3] object-cover"
+          />
         </div>
         <button
           type="button"
           aria-label="Recolher menu"
-          className="ml-auto grid size-9 place-items-center rounded-control border border-line text-ink-muted hover:text-ink"
+          className="grid size-9 place-items-center rounded-control border border-line text-ink-muted hover:text-ink"
         >
           <Icon name="chevronLeft" className="size-4" />
         </button>
