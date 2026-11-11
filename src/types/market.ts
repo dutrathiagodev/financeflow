@@ -1,35 +1,21 @@
-export type Coin = {
+export type MarketCoin = {
+  id: string;
   symbol: string;
   name: string;
-  color: string;
-  glyph: string;
-};
-
-export type TickerItem = {
-  pair: string;
-  price: string;
-  coin: Coin;
-};
-
-export type PriceCard = {
-  pair: string;
-  name: string;
-  price: string;
-  change: number;
-  coin: Coin;
-  /** Pontos do gráfico (0 a 100), do mais antigo ao mais recente. */
-  series: number[];
-  /** Índices da série que recebem marcador. */
-  markers: number[];
-  markerLabel: string;
-};
-
-export type MarketRow = {
+  image: string;
   rank: number;
-  name: string;
-  symbol: string;
-  price: string;
-  change7d: number;
+  price: number;
   change24h: number;
-  coin: Coin;
+  change7d: number;
+  marketCap: number;
+  volume24h: number;
+  high24h: number;
+  low24h: number;
+  /** Preços dos últimos 7 dias, do mais antigo ao mais recente. */
+  sparkline: number[];
+};
+
+export type PricePoint = {
+  time: number;
+  price: number;
 };
