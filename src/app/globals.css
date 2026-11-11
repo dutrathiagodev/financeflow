@@ -30,3 +30,13 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
 }
+
+@theme {
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
