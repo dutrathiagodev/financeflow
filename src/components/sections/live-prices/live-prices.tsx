@@ -29,7 +29,7 @@ export function LivePrices() {
         {dashboardHeader.title}
       </h1>
 
-      <ul className="mt-10 flex gap-5 overflow-x-auto pb-2">
+      <ul className="mt-10 flex gap-5 overflow-x-auto pb-2 [scrollbar-width:none]">
         {priceCards.map((card) => {
           const up = card.change >= 0;
           const { main, decimal } = splitPrice(card.price);

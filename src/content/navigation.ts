@@ -6,8 +6,8 @@ export const brand = {
 };
 
 export const welcome = {
-  greeting: "Bem-vindo de volta,",
-  name: "Jason",
+  greeting: "Bem-vindo",
+  name: "de volta, Jason",
   lastLogin: "Último acesso: 15 jun 2025",
 };
 

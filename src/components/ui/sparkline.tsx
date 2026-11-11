@@ -31,10 +31,10 @@ export function Sparkline({ series, markers, markerLabel, tone }: SparklineProps
   return (
     <svg
       viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-      preserveAspectRatio="none"
+     
       role="img"
       aria-label="Variação de preço recente"
-      className="h-32 w-full overflow-visible"
+      className="h-auto w-full overflow-visible"
     >
       <defs>
         <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
@@ -49,7 +49,6 @@ export function Sparkline({ series, markers, markerLabel, tone }: SparklineProps
         stroke={stroke}
         strokeWidth={1.5}
         strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
       />
       {markers.map((index) => (
         <circle
@@ -60,7 +59,6 @@ export function Sparkline({ series, markers, markerLabel, tone }: SparklineProps
           fill="var(--color-canvas)"
           stroke="var(--color-ink-muted)"
           strokeWidth={1.5}
-          vectorEffect="non-scaling-stroke"
         />
       ))}
       {markerLabel && (
