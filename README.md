@@ -56,7 +56,8 @@ definidas em `application`.
 - `docs/Prd/2_PRD_FinanceFlow.html`: requisitos, regras de negócio, fluxos, telas, modelo de dados, design system e identidade
 - `docs/Prd/1_Landing_FinanceFlow.html`: landing page de referência
 - `docs/Prd/3_Plataforma_FinanceFlow.html`: plataforma exemplo funcionando em um único HTML
-- `docs/architecture/`: spec, skills, template e arquitetura limpa
+- `docs/architecture/`: spec, skills, template, arquitetura limpa e `system-design.md` (visão de system design)
+- `docs/design-referencias/`: capturas de tela do PRD para usar de referência no Figma
 
 ## Enunciado
 
