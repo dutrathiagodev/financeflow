@@ -175,16 +175,18 @@ Resposta externa é validada na borda antes de entrar no sistema. Cache de 1 hor
 
 ## 11. Decisões e pendências
 
-| # | Tema | Situação |
-|---|---|---|
-| D1 | Stack: Next 16, React 19, TS, Tailwind 4 | Decidido (feature.spec.md) |
-| D2 | Persistência em localStorage, uma chave por lista | Decidido (PRD seção 5) |
-| D3 | Planilha calculada, não salva | Decidido (RN10) |
-| D4 | Investimento fora dos totais | Decidido (RN07) |
-| P1 | Fonte de mercado: PRD diz Banco Central + AwesomeAPI; `clean-architecture.md` cita CoinGecko | **Pendente**, equipe decide |
-| P2 | Saldo do topo desconta o investido? | **Pendente**, sugestão: não descontar |
-| P3 | PRD cita CSS Modules e `page.js`; spec manda Tailwind e TypeScript | Adotado o spec; ajustar o PRD |
-| P4 | Biblioteca de gráficos e de .xlsx | **Pendente**, decidir nos cards 0028 e 0039 |
+Todas as decisões de arquitetura e produto são do **Thiago**. A equipe implementa conforme o que ele decidir.
+
+| # | Tema | Situação | Decisor |
+|---|---|---|---|
+| D1 | Stack: Next 16, React 19, TS, Tailwind 4 | Decidido (feature.spec.md) | Thiago |
+| D2 | Persistência em localStorage, uma chave por lista | Decidido (PRD seção 5) | Thiago |
+| D3 | Planilha calculada, não salva | Decidido (RN10) | Thiago |
+| D4 | Investimento fora dos totais | Decidido (RN07) | Thiago |
+| P1 | Fonte de mercado: PRD diz Banco Central + AwesomeAPI; `clean-architecture.md` cita CoinGecko | **Pendente**, equipe decide | Thiago |
+| P2 | Saldo do topo desconta o investido? | **Pendente**, sugestão: não descontar | Thiago |
+| P3 | PRD cita CSS Modules e `page.js`; spec manda Tailwind e TypeScript | Adotado o spec; ajustar o PRD | Thiago |
+| P4 | Biblioteca de gráficos e de .xlsx | **Pendente**, decidir nos cards 0028 e 0039 | Thiago |
 
 ## 12. Evolução (fase 2)
 
