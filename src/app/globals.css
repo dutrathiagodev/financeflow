@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/*
+ * Tokens do design system (docs/Prd/2_PRD_FinanceFlow.html, secao 7).
+ * Valores copiados da plataforma exemplo (docs/Prd/3_Plataforma_FinanceFlow.html).
+ * Cores, fontes e raios vivem aqui; componentes usam apenas classes utilitarias.
+ */
+
+:root {
+  /* Marca (fixas nos dois temas) */
+  --ff-tinta-marca: #1f2f24;
+  --ff-musgo: #4d6330;
+  --ff-folha: #7fa653;
+  --ff-menta: #cfe0bc;
+  --ff-lima: #98cf86;
+  --ff-creme: #f5efe6;
+  --ff-coral: #f0a58f;
+
+  /* Tema claro */
+  --ff-fundo: #e8ece1;
+  --ff-painel: #f9faf5;
+  --ff-campo: #ffffff;
+  --ff-tinta: #1f2f24;
+  --ff-muted: #556552;
+  --ff-regua: rgb(31 47 36 / 0.17);
+  --ff-regua-forte: rgb(31 47 36 / 0.5);
+  --ff-receita: #3c6a1c;
+  --ff-receita-suave: #dde9cf;
+  --ff-despesa: #a63d26;
+  --ff-despesa-suave: #f1dcd4;
+  --ff-invest: #1f5f6e;
+  --ff-invest-suave: #d3e4e8;
+  --ff-primario: #1f2f24;
+  --ff-primario-texto: #f5efe6;
+  --ff-escuro: #1f2f24;
+  --ff-barra: #4d6330;
+}
+
+html[data-tema="dark"] {
+  color-scheme: dark;
+  --ff-fundo: #0d1410;
+  --ff-painel: #141d17;
+  --ff-campo: #0f1712;
+  --ff-tinta: #e4ebdd;
+  --ff-muted: #9bab97;
+  --ff-regua: rgb(228 235 221 / 0.13);
+  --ff-regua-forte: rgb(228 235 221 / 0.34);
+  --ff-receita: #86c45a;
+  --ff-receita-suave: rgb(134 196 90 / 0.16);
+  --ff-despesa: #f0876f;
+  --ff-despesa-suave: rgb(240 135 111 / 0.16);
+  --ff-invest: #6ebbd0;
+  --ff-invest-suave: rgb(110 187 208 / 0.16);
+  --ff-primario: #98cf86;
+  --ff-primario-texto: #0d1410;
+  --ff-escuro: #22372a;
+  --ff-barra: #7fa653;
+}
+
+@theme inline {
+  --color-fundo: var(--ff-fundo);
+  --color-painel: var(--ff-painel);
+  --color-campo: var(--ff-campo);
+  --color-tinta: var(--ff-tinta);
+  --color-muted: var(--ff-muted);
+  --color-regua: var(--ff-regua);
+  --color-regua-forte: var(--ff-regua-forte);
+  --color-receita: var(--ff-receita);
+  --color-receita-suave: var(--ff-receita-suave);
+  --color-despesa: var(--ff-despesa);
+  --color-despesa-suave: var(--ff-despesa-suave);
+  --color-invest: var(--ff-invest);
+  --color-invest-suave: var(--ff-invest-suave);
+  --color-primario: var(--ff-primario);
+  --color-primario-texto: var(--ff-primario-texto);
+  --color-escuro: var(--ff-escuro);
+  --color-barra: var(--ff-barra);
+
+  --color-musgo: var(--ff-musgo);
+  --color-folha: var(--ff-folha);
+  --color-menta: var(--ff-menta);
+  --color-lima: var(--ff-lima);
+  --color-creme: var(--ff-creme);
+  --color-coral: var(--ff-coral);
+
+  /* Fontes: Bricolage Grotesque (titulos e numeros) e Hanken Grotesk (texto) */
+  --font-display: var(--font-bricolage), var(--font-hanken), system-ui, sans-serif;
+  --font-sans: var(--font-hanken), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Um raio so: 10px em paineis, botoes e campos; 5px em etiquetas */
+  --radius-base: 10px;
+  --radius-tag: 5px;
+
+  /* Escala de espaco: 4 8 12 16 20 24 32 */
+  --spacing-gutter-mobile: 16px;
+  --spacing-gutter-desktop: 32px;
+  --spacing-sidebar: 232px;
+}
+
+body {
+  background: var(--ff-fundo);
+  color: var(--ff-tinta);
+  font-family: var(--font-hanken), system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
