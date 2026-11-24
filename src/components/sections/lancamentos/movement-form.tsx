@@ -36,16 +36,13 @@ export function MovementForm({ onAdicionar }: MovementFormProps) {
   // A data fica vazia no estado ate a pessoa escolher; enquanto isso vale o dia de hoje.
   const rascunho = { ...base, data: base.data || hojeLocal };
   const [erros, setErros] = useState<ErrosDoFormulario>({});
-  const [salvou, setSalvou] = useState(false);
 
   function alterar(campo: "descricao" | "valor" | "categoria" | "data", valor: string) {
-    setSalvou(false);
     setBase((atual) => ({ ...atual, [campo]: valor }));
   }
 
   // Trocar o tipo reseta a categoria para uma valida (RN03).
   function alterarTipo(tipo: TipoMovimentacao) {
-    setSalvou(false);
     setErros((atuais) => ({ ...atuais, categoria: undefined }));
     setBase((atual) => ({ ...atual, tipo, categoria: categoriaPadrao(tipo) }));
   }
@@ -55,11 +52,9 @@ export function MovementForm({ onAdicionar }: MovementFormProps) {
     const resultado = onAdicionar(rascunho);
     if (resultado) {
       setErros(resultado);
-      setSalvou(false);
       return;
     }
     setErros({});
-    setSalvou(true);
     setBase(rascunhoVazio(rascunho.tipo, ""));
   }
 
@@ -131,9 +126,6 @@ export function MovementForm({ onAdicionar }: MovementFormProps) {
         <Button type="submit" block>
           {formulario.enviar}
         </Button>
-        <p role="status" className="mt-3 min-h-5 text-[0.85rem] font-semibold text-receita">
-          {salvou ? formulario.sucesso : ""}
-        </p>
       </form>
     </Card>
   );
