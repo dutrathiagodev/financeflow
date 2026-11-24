@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 type NoticeProps = {
   /** Texto do aviso, ja pronto (ex.: "Movimentação excluída"). */
@@ -16,10 +16,16 @@ type NoticeProps = {
 
 /** Aviso no rodape, com acao opcional e fechamento automatico. Client: usa timer. */
 export function Notice({ mensagem, acaoTexto, onAcao, onFechar, duracaoMs = 4500 }: NoticeProps) {
+  // Guarda o callback mais recente: um onFechar inline nao reinicia o tempo a cada render.
+  const fechar = useRef(onFechar);
   useEffect(() => {
-    const id = setTimeout(onFechar, duracaoMs);
+    fechar.current = onFechar;
+  });
+
+  useEffect(() => {
+    const id = setTimeout(() => fechar.current(), duracaoMs);
     return () => clearTimeout(id);
-  }, [mensagem, duracaoMs, onFechar]);
+  }, [mensagem, duracaoMs]);
 
   return (
     <div
