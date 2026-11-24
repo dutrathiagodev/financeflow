@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { useTransactions } from "@/application/hooks/use-transactions";
 import { FloatingButton } from "@/components/ui/floating-button";
 import { Notice } from "@/components/ui/notice";
@@ -20,11 +21,15 @@ export function Lancamentos() {
 
   return (
     <div className="mx-auto max-w-[1360px] px-4 pb-36 pt-6 lg:px-8 lg:pb-14">
-      <header className="mb-6">
-        <h1 className="font-display text-[1.9rem] font-bold leading-[1.1] tracking-[-0.03em]">
-          {lancamentos.titulo}
-        </h1>
-        <p className="mt-0.5 text-[0.9rem] text-muted">{lancamentos.subtitulo}</p>
+      <header className="mb-6 flex items-end gap-4">
+        <div className="min-w-0 flex-1">
+          <h1 className="font-display text-[1.9rem] font-bold leading-[1.1] tracking-[-0.03em]">
+            {lancamentos.titulo}
+          </h1>
+          <p className="mt-0.5 text-[0.9rem] text-muted">{lancamentos.subtitulo}</p>
+        </div>
+        {/* Provisorio: o cabecalho do layout (FF-0014) assume o botao de tema. */}
+        <ThemeToggle />
       </header>
       <SummaryStrip resumo={resumo} />
       <Sheet
