@@ -39,10 +39,12 @@ describe("Field", () => {
 
   it("marca erro e anuncia a mensagem", () => {
     const out = html(
-      <Field label="Valor" erro="Informe um valor maior que zero.">
-        <Input name="valor" />
+      <Field label="Valor" erro="Informe um valor maior que zero." erroId="erro-valor">
+        <Input name="valor" aria-describedby="erro-valor" aria-invalid />
       </Field>,
     );
+    expect(out).toContain('id="erro-valor"');
+    expect(out).toContain('aria-describedby="erro-valor"');
     expect(out).toContain("data-invalido");
     expect(out).toContain('role="alert"');
     expect(out).toContain("Informe um valor maior que zero.");
