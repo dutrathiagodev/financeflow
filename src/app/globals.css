@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Variante dark pelo atributo data-tema do <html> (tema escolhido), nao pelo sistema */
+@custom-variant dark (&:where([data-tema="dark"], [data-tema="dark"] *));
+
 /*
  * Tokens do design system (docs/Prd/2_PRD_FinanceFlow.html, secao 7).
  * Valores copiados da plataforma exemplo (docs/Prd/3_Plataforma_FinanceFlow.html).
@@ -34,6 +37,28 @@
   --ff-primario-texto: #f5efe6;
   --ff-escuro: #1f2f24;
   --ff-barra: #4d6330;
+  --ff-lateral: #1f2f24;
+  --ff-menta-fundo: #cfe0bc;
+  --ff-hover: rgb(207 224 188 / 0.35);
+  --ff-agora: rgb(207 224 188 / 0.5);
+  --ff-despesa-fundo: #a63d26;
+  --ff-receita-fundo: #3c6a1c;
+  --ff-invest-fundo: #1f5f6e;
+
+  /* Cartoes de credito: [cor principal, cor do degrade] */
+  --ff-cartao-roxo: #8a05be;
+  --ff-cartao-roxo-2: #a63bd4;
+  --ff-cartao-laranja: #e65f00;
+  --ff-cartao-laranja-2: #f2862b;
+  --ff-cartao-verde: #4e7a2a;
+  --ff-cartao-verde-2: #6d9a3f;
+  --ff-cartao-azul: #1f5f9e;
+  --ff-cartao-azul-2: #3a83c4;
+  --ff-cartao-vermelho: #b8322a;
+  --ff-cartao-vermelho-2: #d5584f;
+  --ff-cartao-grafite: #3b4640;
+  --ff-cartao-grafite-2: #59655e;
+  --ff-cartao-corpo: #101712;
 }
 
 html[data-tema="dark"] {
@@ -55,6 +80,10 @@ html[data-tema="dark"] {
   --ff-primario-texto: #0d1410;
   --ff-escuro: #22372a;
   --ff-barra: #7fa653;
+  --ff-lateral: #09100b;
+  --ff-menta-fundo: rgb(152 207 134 / 0.16);
+  --ff-hover: rgb(152 207 134 / 0.08);
+  --ff-agora: rgb(152 207 134 / 0.1);
 }
 
 @theme inline {
@@ -75,6 +104,34 @@ html[data-tema="dark"] {
   --color-primario-texto: var(--ff-primario-texto);
   --color-escuro: var(--ff-escuro);
   --color-barra: var(--ff-barra);
+  --color-lateral: var(--ff-lateral);
+  --color-menta-fundo: var(--ff-menta-fundo);
+  --color-hover: var(--ff-hover);
+  --color-agora: var(--ff-agora);
+  --color-despesa-fundo: var(--ff-despesa-fundo);
+  --color-receita-fundo: var(--ff-receita-fundo);
+  --color-invest-fundo: var(--ff-invest-fundo);
+
+  /* Cores do logo por versao (PRD secao 8) */
+  --color-marca: #26382b;
+  --color-flow-claro: #63783d;
+  --color-flow-neutro: #4e8a1f;
+  --color-logo-preto: #0a0a0a;
+  --color-logo-cinza: #333333;
+
+  --color-cartao-roxo: var(--ff-cartao-roxo);
+  --color-cartao-roxo-2: var(--ff-cartao-roxo-2);
+  --color-cartao-laranja: var(--ff-cartao-laranja);
+  --color-cartao-laranja-2: var(--ff-cartao-laranja-2);
+  --color-cartao-verde: var(--ff-cartao-verde);
+  --color-cartao-verde-2: var(--ff-cartao-verde-2);
+  --color-cartao-azul: var(--ff-cartao-azul);
+  --color-cartao-azul-2: var(--ff-cartao-azul-2);
+  --color-cartao-vermelho: var(--ff-cartao-vermelho);
+  --color-cartao-vermelho-2: var(--ff-cartao-vermelho-2);
+  --color-cartao-grafite: var(--ff-cartao-grafite);
+  --color-cartao-grafite-2: var(--ff-cartao-grafite-2);
+  --color-cartao-corpo: var(--ff-cartao-corpo);
 
   --color-musgo: var(--ff-musgo);
   --color-folha: var(--ff-folha);
@@ -95,6 +152,24 @@ html[data-tema="dark"] {
   --spacing-gutter-mobile: 16px;
   --spacing-gutter-desktop: 32px;
   --spacing-sidebar: 232px;
+}
+
+/* Numeros: Bricolage com algarismos tabulares e alinhados (PRD secao 7, Tipografia) */
+@utility numero {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Foco visivel por teclado: contorno de 2px, nunca removido */
+:focus-visible {
+  outline: 2px solid var(--ff-tinta);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
 }
 
 body {
