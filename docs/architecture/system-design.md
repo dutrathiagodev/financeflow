@@ -175,7 +175,7 @@ Resposta externa é validada na borda antes de entrar no sistema. Cache de 1 hor
 
 ## 11. Decisões e pendências
 
-Todas as decisões de arquitetura e produto são do **Thiago**. A equipe implementa conforme o que ele decidir.
+Todas as decisões de arquitetura e produto são do **Thiago**. A equipe implementa conforme o que ele decidiu. Decisões registradas em 2026-11-24.
 
 | # | Tema | Situação | Decisor |
 |---|---|---|---|
@@ -183,10 +183,10 @@ Todas as decisões de arquitetura e produto são do **Thiago**. A equipe impleme
 | D2 | Persistência em localStorage, uma chave por lista | Decidido (PRD seção 5) | Thiago |
 | D3 | Planilha calculada, não salva | Decidido (RN10) | Thiago |
 | D4 | Investimento fora dos totais | Decidido (RN07) | Thiago |
-| P1 | Fonte de mercado: PRD diz Banco Central + AwesomeAPI; `clean-architecture.md` cita CoinGecko | **Pendente**, equipe decide | Thiago |
-| P2 | Saldo do topo desconta o investido? | **Pendente**, sugestão: não descontar | Thiago |
-| P3 | PRD cita CSS Modules e `page.js`; spec manda Tailwind e TypeScript | Adotado o spec; ajustar o PRD | Thiago |
-| P4 | Biblioteca de gráficos e de .xlsx | **Pendente**, decidir nos cards 0028 e 0039 | Thiago |
+| P1 | Fonte de mercado | **Decidido:** Banco Central (Selic, CDI, IPCA) e AwesomeAPI (dólar, euro, bitcoin), sem chave. Referência à CoinGecko removida de `clean-architecture.md` (sobra de outro projeto) | Thiago |
+| P2 | Saldo do topo desconta o investido? | **Decidido:** não desconta. Saldo = receitas − despesas e o valor investido aparece ao lado como "Investido, fora do saldo" (dinheiro investido não é dinheiro para gastar, mas continua sendo da pessoa) | Thiago |
+| P3 | PRD citava CSS Modules e `page.js` | **Decidido:** vale o spec (Tailwind, TypeScript, camadas `domain`/`application`). PRD corrigido (seção 6 e tabela de decisões técnicas) | Thiago |
+| P4 | Biblioteca de gráficos e de .xlsx | **Decidido:** gráficos em SVG próprio, sem biblioteca (igual à plataforma exemplo, leve e fiel ao design); .xlsx com ExcelJS (gratuito, fórmulas e várias abas, exigidas pela RN15) | Thiago |
 
 ## 12. Evolução (fase 2)
 

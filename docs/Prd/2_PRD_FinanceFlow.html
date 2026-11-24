@@ -601,7 +601,7 @@ h1,h2,h3,h4,.lockup b{font-family:"Bricolage Grotesque","Hanken Grotesk",system-
         <tr><td><b>8</b></td><td>O app inteiro.</td><td>Menu lateral (computador) ou barra embaixo (celular); sem rolagem lateral, exceto na tabela da planilha.</td></tr>
       </tbody>
     </table></div>
-    <div class="nota" style="margin-top:16px"><b>Decisão para a equipe:</b> o saldo do topo deve descontar o que foi investido? A sugestão é não descontar, para manter a conta do enunciado (receitas − despesas), e mostrar o "Investido" ao lado. Na planilha da família o investimento é descontado antes da sobra; veja a seção 10.</div>
+    <div class="nota" style="margin-top:16px"><b>Decidido (Thiago):</b> o saldo do topo <b>não desconta</b> o que foi investido. Fica a conta do enunciado (receitas − despesas), e o valor investido aparece ao lado como "Investido, fora do saldo", porque o dinheiro investido não é dinheiro para gastar e ainda assim continua sendo da pessoa. Na planilha da família o investimento é descontado antes da sobra; veja a seção 10.</div>
     <h3>Requisitos não funcionais</h3>
     <div class="grid g4">
       <div class="card"><h4>Responsivo</h4><p class="small muted">De 360 px (celular) a 1440 px (desktop).</p></div>
@@ -813,7 +813,7 @@ h1,h2,h3,h4,.lockup b{font-family:"Bricolage Grotesque","Hanken Grotesk",system-
     <div class="grid g2">
       <div class="card">
         <ul class="tree">
-          <li><code class="arq">app/page.js</code> <small>guarda o estado (useState) e as ações</small>
+          <li><code class="arq">application/hooks</code> <small>guardam o estado (useState) e as ações</small>
             <ul>
               <li><code>Cabecalho</code></li>
               <li><code>AbasNavegacao</code> <small>Lançamentos · Planilha do ano (barra embaixo no celular)</small></li>
@@ -840,15 +840,15 @@ h1,h2,h3,h4,.lockup b{font-family:"Bricolage Grotesque","Hanken Grotesk",system-
       <div style="display:grid;gap:16px;align-content:start">
         <div class="card">
           <h4>Regra de ouro</h4>
-          <p class="small"><b>Dados descem por props, ações sobem por eventos.</b> Os componentes não guardam os dados principais; só mostram o que recebem e avisam o <code>page.js</code> quando algo acontece (<code>onAdicionar</code>, <code>onExcluir</code>, <code>onChange</code>).</p>
+          <p class="small"><b>Dados descem por props, ações sobem por eventos.</b> Os componentes não guardam os dados principais; só mostram o que recebem e avisam o hook (<code>application/hooks</code>) quando algo acontece (<code>onAdicionar</code>, <code>onExcluir</code>, <code>onChange</code>).</p>
         </div>
         <div class="card">
           <h4>Camadas</h4>
           <ul class="lista small">
-            <li><b>Interface:</b> <code>components/</code> + CSS Modules</li>
-            <li><b>Estado:</b> <code>page.js</code> e <code>hooks/useLocalStorage.js</code></li>
-            <li><b>Regras:</b> <code>lib/calculos.js</code>, <code>lib/faturas.js</code>, <code>lib/investimentos.js</code>, <code>lib/planilha.js</code>, <code>lib/parcelas.js</code>, <code>lib/categorias.js</code></li>
-            <li><b>Dados de exemplo:</b> <code>lib/dadosIniciais.js</code></li>
+            <li><b>Interface:</b> <code>components/</code> + Tailwind CSS</li>
+            <li><b>Estado:</b> <code>application/hooks</code> (<code>useTransactions</code>, <code>usePersistedState</code>)</li>
+            <li><b>Regras:</b> <code>domain/</code> (funções puras e testadas: totais, cartões, parcelas, investimentos, planilha, categorias)</li>
+            <li><b>Textos e dados estáticos:</b> <code>content/</code></li>
           </ul>
         </div>
       </div>
@@ -859,10 +859,11 @@ h1,h2,h3,h4,.lockup b{font-family:"Bricolage Grotesque","Hanken Grotesk",system-
       <thead><tr><th>Decisão</th><th>Por quê</th></tr></thead>
       <tbody>
         <tr><td><b>Next.js (App Router)</b></td><td>Exigido no enunciado; publica fácil na Vercel.</td></tr>
-        <tr><td><b>React com useState</b></td><td>Exigido no enunciado; o estado fica no <code>page.js</code> e desce para os componentes.</td></tr>
+        <tr><td><b>React com useState</b></td><td>Exigido no enunciado; o estado fica nos hooks (<code>application/hooks</code>) e desce para os componentes por props.</td></tr>
         <tr><td><b>map() e filter()</b></td><td>map para desenhar a lista; filter para filtrar e para excluir.</td></tr>
-        <tr><td><b>CSS Modules + variáveis CSS</b></td><td>Sem biblioteca extra; cada componente tem seu estilo e as cores vêm de um lugar só.</td></tr>
-        <tr><td><b>Planilha calculada, não salva</b></td><td>As duas abas leem o mesmo estado do <code>page.js</code>. A grade é calculada com <code>lib/planilha.js</code> (agrupar por mês, somar, sobra), então não há dado duplicado.</td></tr>
+        <tr><td><b>Tailwind CSS 4 + tokens</b></td><td>Cada componente usa classes utilitárias; cores, fontes e espaços vêm de tokens em um lugar só (<code>globals.css</code>).</td></tr>
+        <tr><td><b>TypeScript + Vitest</b></td><td>Tipos nas regras de negócio e testes unitários no domínio, para a conta nunca sair errada.</td></tr>
+        <tr><td><b>Planilha calculada, não salva</b></td><td>As duas abas leem o mesmo estado dos hooks. A grade é calculada no domínio (<code>domain/account/spreadsheet</code>: agrupar por mês, somar, sobra), então não há dado duplicado.</td></tr>
         <tr><td><b>localStorage</b></td><td>Persistência do desafio extra, sem precisar de servidor.</td></tr>
         <tr><td><b>Vercel + GitHub</b></td><td>Cada push na <code>main</code> publica sozinho; é o que o enunciado pede para a entrega.</td></tr>
       </tbody>
@@ -1171,7 +1172,9 @@ h1,h2,h3,h4,.lockup b{font-family:"Bricolage Grotesque","Hanken Grotesk",system-
     <div class="grid g2">
       <div class="card"><h4>Para a equipe decidir</h4>
         <ul class="lista small">
-          <li>O saldo do topo desconta o que foi investido? A sugestão continua sendo não descontar, para manter a conta do enunciado.</li>
+          <li><b>Decidido:</b> o saldo do topo não desconta o investido; o "Investido, fora do saldo" aparece ao lado.</li>
+          <li><b>Decidido:</b> mercado vem do Banco Central (Selic, CDI, IPCA) e da AwesomeAPI (dólar, euro, bitcoin), sem chave.</li>
+          <li><b>Decidido:</b> gráficos em SVG próprio, sem biblioteca, como na plataforma exemplo; planilha .xlsx com ExcelJS (fórmulas e abas).</li>
           <li>Parcelas futuras entram nos totais do topo só na data de cada parcela (regra atual).</li>
           <li>Saldo por banco e despesa recorrente ficam para a fase 2.</li>
           <li>Ações da bolsa precisam de uma API com chave (por exemplo, brapi). Ficou fora desta versão.</li>
@@ -1320,8 +1323,8 @@ const DEFS=`<defs>
   const bx=(x,t,s,f,tc)=>R(x,30,170,80,{f,st:'#26382B'})+T(x+85,64,t,{a:'middle',w:700,f:tc})+T(x+85,84,s,{a:'middle',s:11.5,f:tc,w:400});
   document.getElementById('svgFluxoDados').innerHTML=DEFS+
    bx(20,'Formulário','digita os dados','#F4F6EE','#26382B')+
-   bx(250,'page.js','estado com useState','#26382B','#F5EFE6')+
-   bx(480,'lib/calculos.js','totais e filtros','#CFE0BC','#26382B')+
+   bx(250,'hooks','estado com useState','#26382B','#F5EFE6')+
+   bx(480,'domain/','totais e filtros','#CFE0BC','#26382B')+
    bx(710,'Tela','resumo, lista, cartões','#F4F6EE','#26382B')+
    L(190,70,250,70,{end:1})+L(420,70,480,70,{end:1})+L(650,70,710,70,{end:1})+
    R(250,120,170,26,{f:'#fff',d:'5 4',r:8})+T(335,138,'localStorage (salva e lê)',{a:'middle',s:11.5})+L(335,110,335,120,{start:1,end:1})+
@@ -1365,7 +1368,7 @@ const DEFS=`<defs>
   s+=R(20,150,170,110,{f:'#26382B'})+T(105,190,'Pessoa',{a:'middle',w:700,s:15,f:'#F5EFE6'})+T(105,212,'celular ou desktop',{a:'middle',s:11.5,f:'#CFE0BC',w:400})+T(105,230,'navegador',{a:'middle',s:11.5,f:'#CFE0BC',w:400});
   // app
   s+=R(250,30,400,310,{f:'#E9EEDF',d:'6 5',r:20})+T(270,56,'Aplicação Next.js (hospedada na Vercel)',{w:700,s:13.5});
-  const inner=[[270,74,'app/page.js','estado (useState) e ações','#26382B','#F5EFE6'],[270,150,'components/','formulários, listas, cartões','#F4F6EE','#26382B'],[270,226,'lib/','cálculos, filtros, faturas','#CFE0BC','#26382B'],[455,226,'hooks/useLocalStorage','salva e lê no navegador','#CFE0BC','#26382B'],[455,74,'app/layout.js','fonte, estilos globais','#F4F6EE','#26382B'],[455,150,'CSS Modules','cores e componentes','#F4F6EE','#26382B']];
+  const inner=[[270,74,'application/hooks','estado (useState) e ações','#26382B','#F5EFE6'],[270,150,'components/','formulários, listas, cartões','#F4F6EE','#26382B'],[270,226,'domain/','regras de negócio puras','#CFE0BC','#26382B'],[455,226,'infrastructure/storage','salva e lê no navegador','#CFE0BC','#26382B'],[455,74,'app/layout.tsx','fonte, estilos globais','#F4F6EE','#26382B'],[455,150,'Tailwind CSS','tokens e classes','#F4F6EE','#26382B']];
   inner.forEach(([x,y,t,sb,f,tc])=>{s+=R(x,y,175,64,{f})+T(x+87,y+28,t,{a:'middle',w:700,s:12.5,f:tc})+T(x+87,y+47,sb,{a:'middle',s:10.5,f:tc,w:400})});
   s+=L(357,138,357,150,{end:1})+L(357,214,357,226,{end:1});
   // persistência
