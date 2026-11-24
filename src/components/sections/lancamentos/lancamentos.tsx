@@ -3,10 +3,11 @@
 import { useTransactions } from "@/application/hooks/use-transactions";
 import { lancamentos } from "@/content/lancamentos";
 import { MovementForm } from "./movement-form";
+import { SummaryStrip } from "./summary-strip";
 
-/** Tela Lancamentos. A lista (FF-0020) e o resumo (FF-0018) entram nas proximas PRs. */
+/** Tela Lancamentos. A lista de movimentacoes entra no card FF-0020. */
 export function Lancamentos() {
-  const { adicionar } = useTransactions();
+  const { resumo, adicionar } = useTransactions();
 
   return (
     <div className="mx-auto max-w-[1360px] px-4 pb-14 pt-6 lg:px-8">
@@ -16,7 +17,8 @@ export function Lancamentos() {
         </h1>
         <p className="mt-0.5 text-[0.9rem] text-muted">{lancamentos.subtitulo}</p>
       </header>
-      <div className="max-w-[330px]">
+      <SummaryStrip resumo={resumo} />
+      <div className="mt-4 max-w-[330px]">
         <MovementForm
           onAdicionar={(rascunho) => {
             const resultado = adicionar(rascunho);
