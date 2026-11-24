@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Variante dark pelo atributo data-tema do <html> (tema escolhido), nao pelo sistema */
+@custom-variant dark (&:where([data-tema="dark"], [data-tema="dark"] *));
+
 /*
  * Tokens do design system (docs/Prd/2_PRD_FinanceFlow.html, secao 7).
  * Valores copiados da plataforma exemplo (docs/Prd/3_Plataforma_FinanceFlow.html).
@@ -108,6 +111,13 @@ html[data-tema="dark"] {
   --color-despesa-fundo: var(--ff-despesa-fundo);
   --color-receita-fundo: var(--ff-receita-fundo);
   --color-invest-fundo: var(--ff-invest-fundo);
+
+  /* Cores do logo por versao (PRD secao 8) */
+  --color-marca: #26382b;
+  --color-flow-claro: #63783d;
+  --color-flow-neutro: #4e8a1f;
+  --color-logo-preto: #0a0a0a;
+  --color-logo-cinza: #333333;
 
   --color-cartao-roxo: var(--ff-cartao-roxo);
   --color-cartao-roxo-2: var(--ff-cartao-roxo-2);

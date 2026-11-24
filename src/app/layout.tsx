@@ -1,5 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Hanken_Grotesk } from "next/font/google";
+import { site } from "@/content/brand";
+import { urlDoSite } from "@/lib/site-url";
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -15,17 +17,42 @@ const hanken = Hanken_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "FinanceFlow",
-  description: "Controle financeiro pessoal: receitas, despesas, cartões e investimentos.",
+  metadataBase: urlDoSite(),
+  // Paginas internas exportam so o nome ("Lançamentos") e viram "Lançamentos · FinanceFlow".
+  title: { default: site.titulo, template: site.modeloDeTitulo },
+  description: site.descricao,
+  applicationName: site.nomeCurto,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: site.nomeCurto,
+    title: site.titulo,
+    description: site.descricao,
+    url: "/",
+  },
+  twitter: { card: "summary", title: site.titulo, description: site.descricao },
+  formatDetection: { telephone: false },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: site.corDoTemaClaro },
+    { media: "(prefers-color-scheme: dark)", color: site.corDoTemaEscuro },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="pt-BR"
+      lang={site.idioma}
       className={`${bricolage.variable} ${hanken.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <main id="conteudo" className="flex-1">
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
