@@ -7,7 +7,7 @@ Complementa `feature.spec.md`. Define as camadas de código, a regra de dependê
 ```text
 src/domain/          Regras de negócio puras (sem React, Next, fetch ou localStorage)
 src/application/     Casos de uso, portas (interfaces) e hooks de estado
-src/infrastructure/  Adaptadores: CoinGecko, localStorage
+src/infrastructure/  Adaptadores: Banco Central, AwesomeAPI, localStorage
 src/components/      Apresentação (React): ui, layout, sections
 src/app/             Rotas, layout e metadata (somente composição)
 src/content/         Textos e dados estáticos da interface
@@ -28,7 +28,7 @@ infrastructure ----------+   (implementa as portas definidas em application)
 - `application` importa `domain`. Define portas (ex.: `MarketRepository`).
 - `infrastructure` implementa as portas e importa `domain` e `application/ports`.
 - `components` importam `application`, `domain` (tipos e funções puras), `content` e `lib`.
-- O adaptador concreto da CoinGecko só é ligado em `infrastructure/composition.ts`, usado por `components/data/market-data.tsx` e pela rota `app/api/history`.
+- Os adaptadores concretos do Banco Central e da AwesomeAPI só são ligados em `infrastructure/composition.ts`, usado por `components/data/market-data.tsx`.
 
 ### Exceção documentada
 
@@ -41,16 +41,20 @@ de UI e abstraí-lo com uma porta extra só adicionaria indireção. A regra de 
 
 | Lógica | Local |
 | --- | --- |
-| Comprar, vender, depositar, sacar | `domain/account/operations.ts` |
-| Avaliação de posições e lucro | `domain/account/portfolio.ts` |
-| Filtro de transações | `domain/account/transactions.ts` |
-| Filtros e ordenação de moedas | `domain/market/coin-queries.ts` |
-| Insights do mercado | `domain/market/insights.ts` |
-| Série e rótulos do gráfico | `domain/market/chart.ts` |
+| Adicionar, excluir e restaurar movimentação; aporte e resgate | `domain/account/operations.ts` |
+| Totais e saldo (RN01, RN12) | `domain/account/summary.ts` |
+| Filtros e ordenação de movimentações | `domain/account/transactions.ts` |
+| Cartões, fatura aberta e vencimento | `domain/account/cards.ts` |
+| Divisão em parcelas | `domain/account/installments.ts` |
+| Investimentos, total investido e meta | `domain/account/portfolio.ts` |
+| Mês, sobra e saldo anterior | `domain/account/monthly.ts` |
+| Grade da planilha do ano | `domain/account/spreadsheet.ts` |
+| Rendimento estimado | `domain/market/yield.ts` |
+| Série e rótulos dos gráficos | `domain/market/chart.ts` |
 | Validação do que vem do storage | `domain/account/parse.ts` |
-| HTTP da CoinGecko | `infrastructure/coingecko/` |
+| HTTP do Banco Central e da AwesomeAPI | `infrastructure/market/` |
 | localStorage reativo | `infrastructure/storage/` |
-| Estado da conta, favoritos, perfil, tickets | `application/hooks/` |
+| Estado das movimentações, cartões, investimentos e tema | `application/hooks/` |
 | Casos de uso de mercado (+ porta `MarketRepository`) | `application/market/`, `application/ports/` |
 | Ligação porta → adaptador | `infrastructure/composition.ts` |
 
