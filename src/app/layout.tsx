@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Hanken_Grotesk } from "next/font/google";
+import { ThemeProvider } from "@/components/layout/theme-provider";
 import { site } from "@/content/brand";
 import { urlDoSite } from "@/lib/site-url";
 import "./globals.css";
@@ -46,12 +47,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang={site.idioma}
+      // O script do tema escreve data-tema no <html> antes da hidratacao; o aviso seria falso.
+      suppressHydrationWarning
       className={`${bricolage.variable} ${hanken.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <main id="conteudo" className="flex-1">
-          {children}
-        </main>
+        <ThemeProvider>
+          <main id="conteudo" className="flex-1">
+            {children}
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );

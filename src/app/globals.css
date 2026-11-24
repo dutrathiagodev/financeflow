@@ -61,6 +61,10 @@
   --ff-cartao-corpo: #101712;
 }
 
+html[data-tema="light"] {
+  color-scheme: light;
+}
+
 html[data-tema="dark"] {
   color-scheme: dark;
   --ff-fundo: #0d1410;
