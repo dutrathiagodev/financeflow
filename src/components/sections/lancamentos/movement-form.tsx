@@ -1,6 +1,7 @@
 "use client";
 
-import { useId, useState, useSyncExternalStore, type FormEvent } from "react";
+import { useId, useState, type FormEvent } from "react";
+import { useToday } from "@/application/hooks/use-today";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Field, Input, Select } from "@/components/ui/field";
@@ -12,7 +13,6 @@ import type {
   RascunhoMovimentacao,
   TipoMovimentacao,
 } from "@/domain/account/types";
-import { hoje } from "@/domain/shared/dates";
 
 type MovementFormProps = {
   /** Recebe o rascunho; devolve os erros do dominio ou nada quando salvou. */
@@ -24,8 +24,6 @@ const opcoesDeTipo = [
   { value: "receita", label: formulario.receita, tone: "receita" },
 ] as const;
 
-const semAssinatura = () => () => {};
-
 function rascunhoVazio(tipo: TipoMovimentacao, data: string): RascunhoMovimentacao {
   return { descricao: "", valor: "", tipo, categoria: categoriaPadrao(tipo), data };
 }
@@ -33,8 +31,7 @@ function rascunhoVazio(tipo: TipoMovimentacao, data: string): RascunhoMovimentac
 /** Formulario de nova movimentacao (RF01). A validacao e do dominio; aqui so ha estado e eventos. */
 export function MovementForm({ onAdicionar }: MovementFormProps) {
   const prefixo = useId();
-  // Hoje so existe no navegador: no servidor o snapshot e "" e o cliente troca sem avisar de hidratacao.
-  const hojeLocal = useSyncExternalStore(semAssinatura, hoje, () => "");
+  const hojeLocal = useToday();
   const [base, setBase] = useState<RascunhoMovimentacao>(() => rascunhoVazio("despesa", ""));
   // A data fica vazia no estado ate a pessoa escolher; enquanto isso vale o dia de hoje.
   const rascunho = { ...base, data: base.data || hojeLocal };
