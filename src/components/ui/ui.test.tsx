@@ -4,7 +4,9 @@ import { Button } from "./button";
 import { Card } from "./card";
 import { CreditCard } from "./credit-card";
 import { Field, Input } from "./field";
+import { FloatingButton } from "./floating-button";
 import { SegmentedControl } from "./segmented-control";
+import { Sheet } from "./sheet";
 import { Statement, StatementLine } from "./statement";
 import { Tag } from "./tag";
 
@@ -130,5 +132,44 @@ describe("CreditCard", () => {
   it("acima de 80% a barra fica coral", () => {
     expect(html(<CreditCard {...props} usoDoLimite={90} />)).toContain("bg-coral");
     expect(html(<CreditCard {...props} usoDoLimite={10} />)).toContain("bg-cartao-roxo-2");
+  });
+});
+
+describe("Sheet", () => {
+  const sheet = (aberto: boolean) =>
+    html(
+      <Sheet aberto={aberto} onFechar={() => {}} titulo="Nova movimentação" rotuloFechar="Fechar">
+        <p>conteudo</p>
+      </Sheet>,
+    );
+
+  it("fechada: some no celular, mas o conteudo continua no DOM", () => {
+    const out = sheet(false);
+    expect(out).toContain("max-lg:hidden");
+    expect(out).toContain("conteudo");
+    expect(out).not.toContain('role="dialog"');
+  });
+
+  it("aberta: vira dialogo modal com nome acessivel e botao de fechar de 44px", () => {
+    const out = sheet(true);
+    expect(out).toContain('role="dialog"');
+    expect(out).toContain('aria-modal="true"');
+    expect(out).toContain('aria-label="Nova movimentação"');
+    expect(out).toContain('aria-label="Fechar"');
+    expect(out).toContain("size-11");
+  });
+
+  it("o botao de fechar so existe no celular", () => {
+    expect(sheet(true)).toContain("lg:hidden");
+  });
+});
+
+describe("FloatingButton", () => {
+  it("fica fixo embaixo, so no celular, com 52px de altura", () => {
+    const out = html(<FloatingButton>Nova</FloatingButton>);
+    expect(out).toContain("fixed");
+    expect(out).toContain("lg:hidden");
+    expect(out).toContain("h-[52px]");
+    expect(out).toContain('type="button"');
   });
 });

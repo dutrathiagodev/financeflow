@@ -16,6 +16,9 @@ export const resumo = {
 
 export const formulario = {
   titulo: "Nova movimentação",
+  /** Botao flutuante no celular. */
+  abrirNoCelular: "Nova",
+  fechar: "Fechar",
   tipoLegenda: "Tipo da movimentação",
   receita: "Receita",
   despesa: "Despesa",

@@ -31,7 +31,7 @@ export function Notice({ mensagem, acaoTexto, onAcao, onFechar, duracaoMs = 4500
     <div
       role="status"
       aria-live="polite"
-      className="fixed bottom-7 left-1/2 z-80 flex max-w-[calc(100vw-32px)] -translate-x-1/2 items-center gap-4 rounded-base bg-escuro py-2.5 pl-[18px] pr-3 text-creme shadow-[0_12px_32px_rgb(0_0_0/0.28)] max-lg:bottom-[150px]"
+      className="fixed bottom-7 left-1/2 z-80 flex w-max max-w-[calc(100vw-32px)] -translate-x-1/2 items-center gap-4 rounded-base bg-escuro py-2.5 pl-[18px] pr-3 text-creme shadow-[0_12px_32px_rgb(0_0_0/0.28)] max-lg:bottom-[150px]"
     >
       <span>{mensagem}</span>
       {acaoTexto ? (
