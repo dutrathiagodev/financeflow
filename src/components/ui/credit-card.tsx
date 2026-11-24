@@ -45,6 +45,8 @@ type CreditCardProps = {
   fatura: string;
   /** Uso do limite de 0 a 100; passa de 80 a barra fica coral. */
   usoDoLimite: number;
+  /** Nome acessivel da barra de limite (texto vem de fora; ui nao tem texto de negocio). */
+  rotuloDoLimite: string;
   /** Texto abaixo da barra, ja formatado (ex.: "Disponível R$ 2.500,00"). */
   disponivel: string;
   /** Texto da direita abaixo da barra (ex.: "0% do limite"). */
@@ -76,6 +78,7 @@ export function CreditCard({
   detalhe,
   fatura,
   usoDoLimite,
+  rotuloDoLimite,
   disponivel,
   limiteTexto,
   compacto = false,
@@ -122,7 +125,7 @@ export function CreditCard({
       <div className={cn("grid gap-[9px] px-2.5", compacto ? "py-3" : "py-3.5")}>
         <div
           role="progressbar"
-          aria-label="Uso do limite"
+          aria-label={rotuloDoLimite}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={Math.round(uso)}

@@ -111,11 +111,18 @@ describe("CreditCard", () => {
     fatura: "R$ 0,00",
     disponivel: "Disponível R$ 2.500,00",
     limiteTexto: "0% do limite",
+    rotuloDoLimite: "Uso do limite",
   };
 
   it("limita o uso do limite entre 0 e 100", () => {
     expect(html(<CreditCard {...props} usoDoLimite={250} />)).toContain('aria-valuenow="100"');
     expect(html(<CreditCard {...props} usoDoLimite={-5} />)).toContain('aria-valuenow="0"');
+  });
+
+  it("o nome acessivel da barra vem por prop", () => {
+    expect(html(<CreditCard {...props} usoDoLimite={10} rotuloDoLimite="Limite usado" />)).toContain(
+      'aria-label="Limite usado"',
+    );
   });
 
   it("acima de 80% a barra fica coral", () => {
