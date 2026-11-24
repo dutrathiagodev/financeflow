@@ -11,18 +11,20 @@ type FieldProps = {
   label: string;
   /** Mensagem de erro especifica; quando presente, o campo fica no estado de erro. */
   erro?: string;
+  /** id da mensagem de erro, para o controle apontar com aria-describedby. */
+  erroId?: string;
   children: ReactNode;
   className?: string;
 };
 
 /** Rotulo + controle + erro. O rotulo envolve o controle, entao nao precisa de id. */
-export function Field({ label, erro, children, className }: FieldProps) {
+export function Field({ label, erro, erroId, children, className }: FieldProps) {
   return (
     <label className={cn("group mb-3.5 block", className)} data-invalido={erro ? "" : undefined}>
       <span className="mb-[5px] block text-[0.85rem] font-semibold">{label}</span>
       {children}
       {erro ? (
-        <em role="alert" className="mt-1 block text-[0.82rem] font-medium not-italic text-despesa">
+        <em id={erroId} role="alert" className="mt-1 block text-[0.82rem] font-medium not-italic text-despesa">
           {erro}
         </em>
       ) : null}
