@@ -5,6 +5,15 @@ export const lancamentos = {
   subtitulo: "Registre e acompanhe receitas e despesas",
 } as const;
 
+export const resumo = {
+  rotulo: "Resumo financeiro",
+  saldo: "Saldo disponível · todo o período",
+  receitas: "Receitas",
+  despesas: "Despesas",
+  semReceita: "Registre sua primeira receita.",
+  gastou: (percentual: number) => `Você gastou ${percentual}% do que recebeu.`,
+} as const;
+
 export const formulario = {
   titulo: "Nova movimentação",
   tipoLegenda: "Tipo da movimentação",

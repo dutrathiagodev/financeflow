@@ -9,6 +9,8 @@ export type Movimentacao = {
   categoria: string;
   /** "AAAA-MM-DD" */
   data: string;
+  /** Presente so em compras parceladas (RN12). O divisor de parcelas entra no card FF-0032. */
+  parcela?: { atual: number; total: number };
 };
 
 /** O que a pessoa digitou no formulario, ainda sem validar. */
