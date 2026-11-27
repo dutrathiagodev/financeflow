@@ -65,7 +65,7 @@ export function SegmentedControl({
           />
           <span
             className={cn(
-              "grid min-h-[42px] place-items-center px-2 text-center text-[0.9rem] font-semibold text-muted",
+              "grid min-h-11 place-items-center px-2 text-center text-[0.9rem] font-semibold text-muted",
               "peer-focus-visible:outline-2 peer-focus-visible:-outline-offset-4 peer-focus-visible:outline-tinta",
               ativo[opcao.tone ?? "neutro"],
             )}

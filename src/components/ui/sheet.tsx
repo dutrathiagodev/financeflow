@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import { proximoFoco, SELETOR_FOCAVEL } from "@/lib/focus";
 import { cn } from "@/lib/utils";
 
 type SheetProps = {
@@ -18,25 +19,60 @@ type SheetProps = {
 /**
  * Gaveta que sobe de baixo no celular (abaixo de 1024px) e vira um bloco comum no computador.
  * Um unico conteudo no DOM: o estado do formulario nao se perde entre os dois modos.
- * Fecha com Esc ou toque no fundo, leva o foco para dentro e devolve ao abrir/fechar.
+ * Fecha com Esc, toque no fundo ou botao voltar do celular. O foco entra na gaveta, fica preso
+ * nela (Tab e Shift+Tab dao a volta) e volta ao botao que a abriu quando ela fecha.
  */
 export function Sheet({ aberto, onFechar, titulo, rotuloFechar, children, className }: SheetProps) {
   const painel = useRef<HTMLDivElement>(null);
+  // O efeito nao pode recomecar so porque a tela passou outra funcao: so o `aberto` o reinicia.
+  const aoFechar = useRef(onFechar);
+  useEffect(() => {
+    aoFechar.current = onFechar;
+  }, [onFechar]);
 
   useEffect(() => {
     if (!aberto) return;
     const anterior = document.activeElement as HTMLElement | null;
     painel.current?.focus();
 
+    // Botao voltar do celular: a gaveta ganha uma entrada no historico, entao voltar fecha so a
+    // gaveta e nao a tela. Se ela fechar por outro caminho, a entrada e desfeita ao sair.
+    let entradaNoHistorico = true;
+    window.history.pushState({ gaveta: true }, "");
+    function aoVoltar() {
+      entradaNoHistorico = false;
+      aoFechar.current();
+    }
+    window.addEventListener("popstate", aoVoltar);
+
+    // A gaveta cobre a tela: o fundo nao rola por baixo dela.
+    const overflowAnterior = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     function aoTeclar(evento: KeyboardEvent) {
-      if (evento.key === "Escape") onFechar();
+      if (evento.key === "Escape") {
+        aoFechar.current();
+        return;
+      }
+      if (evento.key !== "Tab" || !painel.current) return;
+      const focaveis = Array.from(painel.current.querySelectorAll<HTMLElement>(SELETOR_FOCAVEL)).filter(
+        (el) => el.offsetParent !== null,
+      );
+      const destino = proximoFoco(focaveis.length, focaveis.indexOf(document.activeElement as HTMLElement), evento.shiftKey);
+      if (destino === null) return;
+      evento.preventDefault();
+      focaveis[destino].focus();
     }
     document.addEventListener("keydown", aoTeclar);
+
     return () => {
       document.removeEventListener("keydown", aoTeclar);
+      window.removeEventListener("popstate", aoVoltar);
+      document.body.style.overflow = overflowAnterior;
+      if (entradaNoHistorico) window.history.back();
       anterior?.focus();
     };
-  }, [aberto, onFechar]);
+  }, [aberto]);
 
   return (
     <div
