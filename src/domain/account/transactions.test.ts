@@ -170,3 +170,29 @@ describe("haFiltroAtivo", () => {
     expect(haFiltroAtivo(com({ mes: "2026-10" }))).toBe(true);
   });
 });
+
+describe("historia: filtrar so as despesas de Lazer (FF-0023)", () => {
+  const filtros = com({ tipo: "despesa", categoria: "Lazer" });
+
+  it("escolher Despesa e Lazer mostra so despesas de Lazer", () => {
+    const filtradas = filtrarMovimentacoes(lista, filtros);
+    expect(ids(filtradas)).toEqual(["cinema", "fliperama", "fatura"]);
+    expect(filtradas.every((i) => i.tipo === "despesa" && i.categoria === "Lazer")).toBe(true);
+  });
+
+  it("a contagem N de M usa o resultado e a lista inteira", () => {
+    expect(`${filtrarMovimentacoes(lista, filtros).length} de ${lista.length}`).toBe("3 de 6");
+  });
+
+  it("os totais do topo seguem calculados com todos os lancamentos", () => {
+    const hoje = "2026-11-27";
+    const filtradas = filtrarMovimentacoes(lista, filtros);
+    expect(resumir(lista, hoje)).not.toEqual(resumir(filtradas, hoje));
+    expect(resumir(lista, hoje).receitas).toBe(750);
+  });
+
+  it("limpar o filtro devolve a lista inteira", () => {
+    expect(ids(filtrarMovimentacoes(lista, FILTROS_PADRAO))).toEqual(ids(lista));
+    expect(haFiltroAtivo(FILTROS_PADRAO)).toBe(false);
+  });
+});
