@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { useTransactionFilters } from "@/application/hooks/use-transaction-filters";
 import { useTransactions } from "@/application/hooks/use-transactions";
 import { FloatingButton } from "@/components/ui/floating-button";
 import { Notice } from "@/components/ui/notice";
@@ -8,6 +9,7 @@ import { Sheet } from "@/components/ui/sheet";
 import { formulario, lista } from "@/content/lancamentos";
 import { MovementForm } from "./movement-form";
 import { SummaryStrip } from "./summary-strip";
+import { TransactionFilters } from "./transaction-filters";
 import { TransactionList } from "./transaction-list";
 
 /** Tela Lancamentos: totais, formulario e lista de movimentacoes. */
@@ -22,6 +24,8 @@ export function Lancamentos() {
     desfazerExclusao,
     confirmarExclusao,
   } = useTransactions();
+  // Os filtros so mudam o que a lista mostra; o resumo do topo usa sempre a lista inteira (RN01).
+  const filtragem = useTransactionFilters(movimentacoes);
   // Celular: o formulario abre em gaveta pelo botao "+ Nova". Computador: fica sempre na tela.
   const [gavetaAberta, setGavetaAberta] = useState(false);
   const [aviso, setAviso] = useState<string | null>(null);
@@ -53,8 +57,21 @@ export function Lancamentos() {
           />
         </Sheet>
         <TransactionList
-          movimentacoes={movimentacoes}
+          movimentacoes={filtragem.filtradas}
+          total={movimentacoes.length}
           hoje={hoje}
+          filtros={
+            <TransactionFilters
+              filtros={filtragem.filtros}
+              categorias={filtragem.categorias}
+              meses={filtragem.meses}
+              onTipo={filtragem.alterarTipo}
+              onCategoria={filtragem.alterarCategoria}
+              onPagamento={filtragem.alterarPagamento}
+              onMes={filtragem.alterarMes}
+            />
+          }
+          onLimparFiltros={filtragem.limpar}
           onExcluir={(id) => {
             setAviso(null);
             excluir(id);

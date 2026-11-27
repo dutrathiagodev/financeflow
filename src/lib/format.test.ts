@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatarComSinal, formatarData, formatarReais } from "./format";
+import { formatarComSinal, formatarData, formatarMes, formatarReais } from "./format";
 
 const nbsp = " ";
 
@@ -30,5 +30,17 @@ describe("formatarData", () => {
   it("troca AAAA-MM-DD por DD/MM/AAAA sem passar por Date", () => {
     expect(formatarData("2026-11-27")).toBe("27/11/2026");
     expect(formatarData("2026-01-05")).toBe("05/01/2026");
+  });
+});
+
+describe("formatarMes", () => {
+  it("escreve o mes por extenso com a primeira letra maiuscula", () => {
+    expect(formatarMes("2026-11")).toBe("Novembro de 2026");
+    expect(formatarMes("2026-03")).toBe("Março de 2026");
+  });
+
+  it("janeiro e dezembro nao escorregam de mes ou de ano", () => {
+    expect(formatarMes("2026-01")).toBe("Janeiro de 2026");
+    expect(formatarMes("2026-12")).toBe("Dezembro de 2026");
   });
 });

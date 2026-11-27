@@ -27,10 +27,29 @@ export const lista = {
   /** Aviso no rodape depois de excluir, com a acao de voltar atras. */
   excluido: "Excluído",
   desfazer: "Desfazer",
+  /** "Mostrando 3 de 12": quantas aparecem com os filtros, de quantas existem. */
+  contagem: (mostradas: number, total: number) => `Mostrando ${mostradas} de ${total}`,
+  semResultado: {
+    titulo: "Nenhuma movimentação com esses filtros.",
+    dica: "Mude os filtros ou limpe-os para ver tudo de novo.",
+    limpar: "Limpar filtros",
+  },
   vazio: {
     titulo: "Nenhuma movimentação ainda.",
     dica: "Registre sua primeira receita ou despesa para ela aparecer aqui.",
   },
+} as const;
+
+export const filtros = {
+  rotulo: "Filtrar movimentações",
+  tipo: "Tipo",
+  tipoOpcoes: { todos: "Todos", receita: "Receitas", despesa: "Despesas" },
+  categoria: "Categoria",
+  todasCategorias: "Todas",
+  pagamento: "Pagamento",
+  pagamentoOpcoes: { todos: "Todos", avista: "À vista", cartao: "Cartão" },
+  mes: "Mês",
+  todosMeses: "Todos os meses",
 } as const;
 
 export const resumo = {
