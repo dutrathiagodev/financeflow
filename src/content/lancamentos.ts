@@ -5,6 +5,29 @@ export const lancamentos = {
   subtitulo: "Registre e acompanhe receitas e despesas",
 } as const;
 
+export const lista = {
+  titulo: "Movimentações",
+  /** Rotulo acessivel da lista inteira. */
+  rotulo: "Lista de movimentações",
+  colunas: {
+    descricao: "Descrição",
+    categoria: "Categoria",
+    data: "Data",
+    pagamento: "Pagamento",
+    valor: "Valor",
+  },
+  receita: "Receita",
+  despesa: "Despesa",
+  agendada: "agendada",
+  /** "2/3": parcela atual de total. */
+  parcela: (atual: number, total: number) => `${atual}/${total}`,
+  pagamento: { avista: "À vista", cartao: "Cartão" },
+  vazio: {
+    titulo: "Nenhuma movimentação ainda.",
+    dica: "Registre sua primeira receita ou despesa para ela aparecer aqui.",
+  },
+} as const;
+
 export const resumo = {
   rotulo: "Resumo financeiro",
   saldo: "Saldo disponível · todo o período",

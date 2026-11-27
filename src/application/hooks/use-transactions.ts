@@ -32,5 +32,5 @@ export function useTransactions() {
     [movimentacoes],
   );
 
-  return { movimentacoes, resumo, adicionar };
+  return { movimentacoes, resumo, hoje: hojeLocal, adicionar };
 }

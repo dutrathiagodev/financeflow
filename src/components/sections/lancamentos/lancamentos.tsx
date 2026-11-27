@@ -8,10 +8,11 @@ import { Sheet } from "@/components/ui/sheet";
 import { formulario } from "@/content/lancamentos";
 import { MovementForm } from "./movement-form";
 import { SummaryStrip } from "./summary-strip";
+import { TransactionList } from "./transaction-list";
 
-/** Tela Lancamentos. A lista de movimentacoes entra no card FF-0020. */
+/** Tela Lancamentos: totais, formulario e lista de movimentacoes. */
 export function Lancamentos() {
-  const { resumo, adicionar } = useTransactions();
+  const { movimentacoes, resumo, hoje, adicionar } = useTransactions();
   // Celular: o formulario abre em gaveta pelo botao "+ Nova". Computador: fica sempre na tela.
   const [gavetaAberta, setGavetaAberta] = useState(false);
   const [aviso, setAviso] = useState<string | null>(null);
@@ -21,23 +22,27 @@ export function Lancamentos() {
   return (
     <div className="mx-auto max-w-[1360px] px-4 pb-36 pt-6 lg:px-8 lg:pb-14">
       <SummaryStrip resumo={resumo} />
-      <Sheet
-        aberto={gavetaAberta}
-        onFechar={fecharGaveta}
-        titulo={formulario.titulo}
-        rotuloFechar={formulario.fechar}
-        className="lg:mt-4 lg:max-w-[330px]"
-      >
-        <MovementForm
-          onAdicionar={(rascunho) => {
-            const resultado = adicionar(rascunho);
-            if (!resultado.ok) return resultado.erro;
-            setGavetaAberta(false);
-            setAviso(formulario.sucesso);
-            return null;
-          }}
-        />
-      </Sheet>
+      {/* Computador: formulario a esquerda e lista a direita. Celular: so a lista, formulario em gaveta. */}
+      <div className="mt-4 lg:grid lg:grid-cols-[330px_minmax(0,1fr)] lg:items-start lg:gap-4">
+        <Sheet
+          aberto={gavetaAberta}
+          onFechar={fecharGaveta}
+          titulo={formulario.titulo}
+          rotuloFechar={formulario.fechar}
+          className="lg:sticky lg:top-[calc(var(--spacing-header)+1rem)]"
+        >
+          <MovementForm
+            onAdicionar={(rascunho) => {
+              const resultado = adicionar(rascunho);
+              if (!resultado.ok) return resultado.erro;
+              setGavetaAberta(false);
+              setAviso(formulario.sucesso);
+              return null;
+            }}
+          />
+        </Sheet>
+        <TransactionList movimentacoes={movimentacoes} hoje={hoje} />
+      </div>
       <FloatingButton onClick={() => setGavetaAberta(true)}>
         <svg aria-hidden="true" viewBox="0 0 24 24" className="size-[18px] fill-none stroke-current" strokeWidth="1.9">
           <path d="M5 12h14" />
