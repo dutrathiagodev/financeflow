@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Hanken_Grotesk } from "next/font/google";
+import { AppShell } from "@/components/layout/app-shell";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { site } from "@/content/brand";
 import { urlDoSite } from "@/lib/site-url";
@@ -53,9 +54,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
-          <main id="conteudo" className="flex-1">
-            {children}
-          </main>
+          <AppShell>{children}</AppShell>
         </ThemeProvider>
       </body>
     </html>
