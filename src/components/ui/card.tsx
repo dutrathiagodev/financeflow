@@ -16,7 +16,7 @@ export function Card({ title, action, className, children, ...props }: CardProps
       {...props}
     >
       {title ? (
-        <h2 className="-mx-5 -mt-[18px] mb-[18px] flex min-h-[52px] items-center justify-between gap-2.5 border-b border-regua px-5 py-3 font-display text-[1.02rem] font-bold tracking-[-0.01em]">
+        <h2 className="-mx-5 -mt-[18px] mb-[18px] flex min-h-[52px] flex-wrap items-center justify-between gap-x-2.5 gap-y-1 border-b border-regua px-5 py-3 font-display text-[1.02rem] font-bold tracking-[-0.01em]">
           {title}
           {action ? (
             <span className="font-sans text-[0.85rem] font-semibold text-muted">{action}</span>
