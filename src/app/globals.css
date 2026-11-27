@@ -156,6 +156,8 @@ html[data-tema="dark"] {
   --spacing-gutter-mobile: 16px;
   --spacing-gutter-desktop: 32px;
   --spacing-sidebar: 232px;
+  /* Altura do cabecalho no computador. O formulario fixo de Lancamentos usa o mesmo valor no top. */
+  --spacing-header: 100px;
 }
 
 /* Numeros: Bricolage com algarismos tabulares e alinhados (PRD secao 7, Tipografia) */
