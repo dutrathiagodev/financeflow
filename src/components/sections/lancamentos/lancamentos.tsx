@@ -1,18 +1,31 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { useTransactionFilters } from "@/application/hooks/use-transaction-filters";
 import { useTransactions } from "@/application/hooks/use-transactions";
 import { FloatingButton } from "@/components/ui/floating-button";
 import { Notice } from "@/components/ui/notice";
 import { Sheet } from "@/components/ui/sheet";
-import { formulario, lancamentos } from "@/content/lancamentos";
+import { formulario, lista } from "@/content/lancamentos";
 import { MovementForm } from "./movement-form";
 import { SummaryStrip } from "./summary-strip";
+import { TransactionFilters } from "./transaction-filters";
+import { TransactionList } from "./transaction-list";
 
-/** Tela Lancamentos. A lista de movimentacoes entra no card FF-0020. */
+/** Tela Lancamentos: totais, formulario e lista de movimentacoes. */
 export function Lancamentos() {
-  const { resumo, adicionar } = useTransactions();
+  const {
+    movimentacoes,
+    resumo,
+    hoje,
+    adicionar,
+    excluir,
+    exclusaoPendente,
+    desfazerExclusao,
+    confirmarExclusao,
+  } = useTransactions();
+  // Os filtros so mudam o que a lista mostra; o resumo do topo usa sempre a lista inteira (RN01).
+  const filtragem = useTransactionFilters(movimentacoes);
   // Celular: o formulario abre em gaveta pelo botao "+ Nova". Computador: fica sempre na tela.
   const [gavetaAberta, setGavetaAberta] = useState(false);
   const [aviso, setAviso] = useState<string | null>(null);
@@ -21,34 +34,50 @@ export function Lancamentos() {
 
   return (
     <div className="mx-auto max-w-[1360px] px-4 pb-36 pt-6 lg:px-8 lg:pb-14">
-      <header className="mb-6 flex items-end gap-4">
-        <div className="min-w-0 flex-1">
-          <h1 className="font-display text-[1.9rem] font-bold leading-[1.1] tracking-[-0.03em]">
-            {lancamentos.titulo}
-          </h1>
-          <p className="mt-0.5 text-[0.9rem] text-muted">{lancamentos.subtitulo}</p>
-        </div>
-        {/* Provisorio: o cabecalho do layout (FF-0014) assume o botao de tema. */}
-        <ThemeToggle />
-      </header>
       <SummaryStrip resumo={resumo} />
-      <Sheet
-        aberto={gavetaAberta}
-        onFechar={fecharGaveta}
-        titulo={formulario.titulo}
-        rotuloFechar={formulario.fechar}
-        className="lg:mt-4 lg:max-w-[330px]"
-      >
-        <MovementForm
-          onAdicionar={(rascunho) => {
-            const resultado = adicionar(rascunho);
-            if (!resultado.ok) return resultado.erro;
-            setGavetaAberta(false);
-            setAviso(formulario.sucesso);
-            return null;
+      {/* Computador: formulario a esquerda e lista a direita. Celular: so a lista, formulario em gaveta. */}
+      <div className="mt-4 lg:grid lg:grid-cols-[330px_minmax(0,1fr)] lg:items-start lg:gap-4">
+        <Sheet
+          aberto={gavetaAberta}
+          onFechar={fecharGaveta}
+          titulo={formulario.titulo}
+          rotuloFechar={formulario.fechar}
+          className="lg:sticky lg:top-[calc(var(--spacing-header)+1rem)]"
+        >
+          <MovementForm
+            onAdicionar={(rascunho) => {
+              const resultado = adicionar(rascunho);
+              if (!resultado.ok) return resultado.erro;
+              // Adicionar enquanto o aviso de exclusao esta aberto torna a exclusao definitiva.
+              confirmarExclusao();
+              setGavetaAberta(false);
+              setAviso(formulario.sucesso);
+              return null;
+            }}
+          />
+        </Sheet>
+        <TransactionList
+          movimentacoes={filtragem.filtradas}
+          total={movimentacoes.length}
+          hoje={hoje}
+          filtros={
+            <TransactionFilters
+              filtros={filtragem.filtros}
+              categorias={filtragem.categorias}
+              meses={filtragem.meses}
+              onTipo={filtragem.alterarTipo}
+              onCategoria={filtragem.alterarCategoria}
+              onPagamento={filtragem.alterarPagamento}
+              onMes={filtragem.alterarMes}
+            />
+          }
+          onLimparFiltros={filtragem.limpar}
+          onExcluir={(id) => {
+            setAviso(null);
+            excluir(id);
           }}
         />
-      </Sheet>
+      </div>
       <FloatingButton onClick={() => setGavetaAberta(true)}>
         <svg aria-hidden="true" viewBox="0 0 24 24" className="size-[18px] fill-none stroke-current" strokeWidth="1.9">
           <path d="M5 12h14" />
@@ -56,7 +85,18 @@ export function Lancamentos() {
         </svg>
         {formulario.abrirNoCelular}
       </FloatingButton>
-      {aviso ? <Notice mensagem={aviso} onFechar={fecharAviso} /> : null}
+      {exclusaoPendente ? (
+        // key: cada exclusao reinicia os 4,5 s, mesmo com o texto igual ao da anterior.
+        <Notice
+          key={exclusaoPendente}
+          mensagem={lista.excluido}
+          acaoTexto={lista.desfazer}
+          onAcao={desfazerExclusao}
+          onFechar={confirmarExclusao}
+        />
+      ) : aviso ? (
+        <Notice mensagem={aviso} onFechar={fecharAviso} />
+      ) : null}
     </div>
   );
 }

@@ -5,6 +5,53 @@ export const lancamentos = {
   subtitulo: "Registre e acompanhe receitas e despesas",
 } as const;
 
+export const lista = {
+  titulo: "Movimentações",
+  /** Rotulo acessivel da lista inteira. */
+  rotulo: "Lista de movimentações",
+  colunas: {
+    descricao: "Descrição",
+    categoria: "Categoria",
+    data: "Data",
+    pagamento: "Pagamento",
+    valor: "Valor",
+  },
+  receita: "Receita",
+  despesa: "Despesa",
+  agendada: "agendada",
+  /** "2/3": parcela atual de total. */
+  parcela: (atual: number, total: number) => `${atual}/${total}`,
+  pagamento: { avista: "À vista", cartao: "Cartão" },
+  /** Nome acessivel da lixeira de cada linha. */
+  excluir: (descricao: string) => `Excluir ${descricao}`,
+  /** Aviso no rodape depois de excluir, com a acao de voltar atras. */
+  excluido: "Excluído",
+  desfazer: "Desfazer",
+  /** "Mostrando 3 de 12": quantas aparecem com os filtros, de quantas existem. */
+  contagem: (mostradas: number, total: number) => `Mostrando ${mostradas} de ${total}`,
+  semResultado: {
+    titulo: "Nenhuma movimentação com esses filtros.",
+    dica: "Mude os filtros ou limpe-os para ver tudo de novo.",
+    limpar: "Limpar filtros",
+  },
+  vazio: {
+    titulo: "Nenhuma movimentação ainda.",
+    dica: "Registre sua primeira receita ou despesa para ela aparecer aqui.",
+  },
+} as const;
+
+export const filtros = {
+  rotulo: "Filtrar movimentações",
+  tipo: "Tipo",
+  tipoOpcoes: { todos: "Todos", receita: "Receitas", despesa: "Despesas" },
+  categoria: "Categoria",
+  todasCategorias: "Todas",
+  pagamento: "Pagamento",
+  pagamentoOpcoes: { todos: "Todos", avista: "À vista", cartao: "Cartão" },
+  mes: "Mês",
+  todosMeses: "Todos os meses",
+} as const;
+
 export const resumo = {
   rotulo: "Resumo financeiro",
   saldo: "Saldo disponível · todo o período",
