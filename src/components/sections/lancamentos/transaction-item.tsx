@@ -1,3 +1,4 @@
+import { IconButton } from "@/components/ui/icon-button";
 import { Tag } from "@/components/ui/tag";
 import { lista } from "@/content/lancamentos";
 import { contaNosTotais } from "@/domain/account/summary";
@@ -9,6 +10,8 @@ type TransactionItemProps = {
   movimentacao: Movimentacao;
   /** Hoje ("AAAA-MM-DD"); decide se a parcela ainda e "agendada". Vazio antes de montar. */
   hoje: string;
+  /** Chamado com o id quando a pessoa toca na lixeira (RF04). */
+  onExcluir: (id: string) => void;
 };
 
 // Receita e despesa nao dependem so da cor: sinal (+ / −) e bolinha tambem as diferenciam (RF05).
@@ -21,13 +24,13 @@ const tipos = {
  * Uma linha da lista (RF03). No computador: descricao, categoria, data, pagamento e valor em
  * colunas. No celular: descricao e valor em cima, e os detalhes numa linha de apoio embaixo.
  */
-export function TransactionItem({ movimentacao: m, hoje }: TransactionItemProps) {
+export function TransactionItem({ movimentacao: m, hoje, onExcluir }: TransactionItemProps) {
   const tipo = tipos[m.tipo];
   const agendada = hoje !== "" && !contaNosTotais(m, hoje);
   const pagamento = lista.pagamento[m.pagamento ?? "avista"];
 
   return (
-    <li className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 border-b border-regua px-1 py-2.5 text-[0.93rem] hover:bg-hover lg:grid-cols-[minmax(0,2.3fr)_minmax(0,1fr)_88px_minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-x-4">
+    <li className="grid grid-cols-[minmax(0,1fr)_auto_44px] items-center gap-x-3 border-b border-regua px-1 py-1.5 text-[0.93rem] hover:bg-hover lg:grid-cols-[minmax(0,2.3fr)_minmax(0,1fr)_88px_minmax(0,1fr)_minmax(0,1.1fr)_44px] lg:gap-x-4">
       <div className="flex min-w-0 items-center gap-2.5">
         <span aria-hidden="true" className={cn("size-2.5 flex-none rounded-full", tipo.marcador)} />
         <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5">
@@ -46,8 +49,29 @@ export function TransactionItem({ movimentacao: m, hoje }: TransactionItemProps)
         {formatarComSinal(m.valor, m.tipo)}
       </span>
 
+      <IconButton
+        aria-label={lista.excluir(m.descricao)}
+        onClick={() => onExcluir(m.id)}
+        className="border-transparent text-muted hover:text-despesa"
+      >
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          className="size-[18px] fill-none stroke-current"
+          strokeWidth="1.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M10 11v6" />
+          <path d="M14 11v6" />
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+          <path d="M3 6h18" />
+          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+        </svg>
+      </IconButton>
+
       {/* Celular: os detalhes que somem das colunas descem para uma linha de apoio. */}
-      <p className="col-span-2 mt-0.5 pl-5 text-[0.8rem] text-muted lg:hidden">
+      <p className="col-span-3 -mt-1.5 pb-1.5 pl-5 text-[0.8rem] text-muted lg:hidden">
         {m.categoria} · {formatarData(m.data)} · {pagamento}
       </p>
     </li>

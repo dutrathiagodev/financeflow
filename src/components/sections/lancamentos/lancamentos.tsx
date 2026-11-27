@@ -5,14 +5,23 @@ import { useTransactions } from "@/application/hooks/use-transactions";
 import { FloatingButton } from "@/components/ui/floating-button";
 import { Notice } from "@/components/ui/notice";
 import { Sheet } from "@/components/ui/sheet";
-import { formulario } from "@/content/lancamentos";
+import { formulario, lista } from "@/content/lancamentos";
 import { MovementForm } from "./movement-form";
 import { SummaryStrip } from "./summary-strip";
 import { TransactionList } from "./transaction-list";
 
 /** Tela Lancamentos: totais, formulario e lista de movimentacoes. */
 export function Lancamentos() {
-  const { movimentacoes, resumo, hoje, adicionar } = useTransactions();
+  const {
+    movimentacoes,
+    resumo,
+    hoje,
+    adicionar,
+    excluir,
+    exclusaoPendente,
+    desfazerExclusao,
+    confirmarExclusao,
+  } = useTransactions();
   // Celular: o formulario abre em gaveta pelo botao "+ Nova". Computador: fica sempre na tela.
   const [gavetaAberta, setGavetaAberta] = useState(false);
   const [aviso, setAviso] = useState<string | null>(null);
@@ -35,13 +44,22 @@ export function Lancamentos() {
             onAdicionar={(rascunho) => {
               const resultado = adicionar(rascunho);
               if (!resultado.ok) return resultado.erro;
+              // Adicionar enquanto o aviso de exclusao esta aberto torna a exclusao definitiva.
+              confirmarExclusao();
               setGavetaAberta(false);
               setAviso(formulario.sucesso);
               return null;
             }}
           />
         </Sheet>
-        <TransactionList movimentacoes={movimentacoes} hoje={hoje} />
+        <TransactionList
+          movimentacoes={movimentacoes}
+          hoje={hoje}
+          onExcluir={(id) => {
+            setAviso(null);
+            excluir(id);
+          }}
+        />
       </div>
       <FloatingButton onClick={() => setGavetaAberta(true)}>
         <svg aria-hidden="true" viewBox="0 0 24 24" className="size-[18px] fill-none stroke-current" strokeWidth="1.9">
@@ -50,7 +68,18 @@ export function Lancamentos() {
         </svg>
         {formulario.abrirNoCelular}
       </FloatingButton>
-      {aviso ? <Notice mensagem={aviso} onFechar={fecharAviso} /> : null}
+      {exclusaoPendente ? (
+        // key: cada exclusao reinicia os 4,5 s, mesmo com o texto igual ao da anterior.
+        <Notice
+          key={exclusaoPendente}
+          mensagem={lista.excluido}
+          acaoTexto={lista.desfazer}
+          onAcao={desfazerExclusao}
+          onFechar={confirmarExclusao}
+        />
+      ) : aviso ? (
+        <Notice mensagem={aviso} onFechar={fecharAviso} />
+      ) : null}
     </div>
   );
 }

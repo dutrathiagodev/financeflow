@@ -22,6 +22,11 @@ export const lista = {
   /** "2/3": parcela atual de total. */
   parcela: (atual: number, total: number) => `${atual}/${total}`,
   pagamento: { avista: "À vista", cartao: "Cartão" },
+  /** Nome acessivel da lixeira de cada linha. */
+  excluir: (descricao: string) => `Excluir ${descricao}`,
+  /** Aviso no rodape depois de excluir, com a acao de voltar atras. */
+  excluido: "Excluído",
+  desfazer: "Desfazer",
   vazio: {
     titulo: "Nenhuma movimentação ainda.",
     dica: "Registre sua primeira receita ou despesa para ela aparecer aqui.",
