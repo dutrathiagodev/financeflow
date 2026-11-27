@@ -61,6 +61,18 @@ export const resumo = {
   gastou: (percentual: number) => `Você gastou ${percentual}% do que recebeu.`,
 } as const;
 
+export const faixaDoMes = {
+  rotulo: "Faixa do mês",
+  mesAnterior: "Mês anterior",
+  proximoMes: "Próximo mês",
+  mesAtual: "Voltar ao mês atual",
+  saldoAnterior: "Saldo anterior",
+  receitas: "Receitas do mês",
+  despesas: "Despesas do mês",
+  sobra: "Sobra do mês",
+  saldoNoFim: "Saldo no fim do mês",
+} as const;
+
 export const formulario = {
   titulo: "Nova movimentação",
   /** Botao flutuante no celular. */

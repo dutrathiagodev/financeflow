@@ -1,12 +1,14 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { useMonthStrip } from "@/application/hooks/use-month-strip";
 import { useTransactionFilters } from "@/application/hooks/use-transaction-filters";
 import { useTransactions } from "@/application/hooks/use-transactions";
 import { FloatingButton } from "@/components/ui/floating-button";
 import { Notice } from "@/components/ui/notice";
 import { Sheet } from "@/components/ui/sheet";
 import { formulario, lista } from "@/content/lancamentos";
+import { MonthStrip } from "./month-strip";
 import { MovementForm } from "./movement-form";
 import { SummaryStrip } from "./summary-strip";
 import { TransactionFilters } from "./transaction-filters";
@@ -26,6 +28,8 @@ export function Lancamentos() {
   } = useTransactions();
   // Os filtros so mudam o que a lista mostra; o resumo do topo usa sempre a lista inteira (RN01).
   const filtragem = useTransactionFilters(movimentacoes);
+  // A faixa do mes tambem usa a lista inteira e tem o proprio mes escolhido, separado do filtro.
+  const faixaMes = useMonthStrip(movimentacoes, hoje);
   // Celular: o formulario abre em gaveta pelo botao "+ Nova". Computador: fica sempre na tela.
   const [gavetaAberta, setGavetaAberta] = useState(false);
   const [aviso, setAviso] = useState<string | null>(null);
@@ -35,6 +39,15 @@ export function Lancamentos() {
   return (
     <div className="mx-auto max-w-[1360px] px-4 pb-36 pt-6 lg:px-8 lg:pb-14">
       <SummaryStrip resumo={resumo} />
+      {faixaMes.faixa ? (
+        <MonthStrip
+          faixa={faixaMes.faixa}
+          noMesAtual={faixaMes.noMesAtual}
+          onAnterior={faixaMes.anterior}
+          onProximo={faixaMes.proximo}
+          onVoltarParaAtual={faixaMes.voltarParaAtual}
+        />
+      ) : null}
       {/* Computador: formulario a esquerda e lista a direita. Celular: so a lista, formulario em gaveta. */}
       <div className="mt-4 lg:grid lg:grid-cols-[330px_minmax(0,1fr)] lg:items-start lg:gap-4">
         <Sheet
