@@ -92,6 +92,11 @@ describe("Card", () => {
   it("nao usa sombra", () => {
     expect(html(<Card>x</Card>)).not.toContain("shadow");
   });
+
+  it("o cabecalho quebra linha: titulo e acao longos nao estouram a largura do celular", () => {
+    const out = html(<Card title="Titulo" action="Acao longa">x</Card>);
+    expect(out).toMatch(/<h2[^>]*flex-wrap/);
+  });
 });
 
 describe("Statement", () => {

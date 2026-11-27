@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import {
   adicionarMovimentacao,
   excluirMovimentacao,
@@ -23,8 +23,10 @@ type ExclusaoDesfazivel = { movimentacao: Movimentacao; posicao: PosicaoOriginal
 /**
  * Estado das movimentacoes. So orquestra: le o estado, chama a funcao pura do dominio e guarda
  * o resultado. A persistencia no localStorage entra no card FF-0038.
+ * Quem usa e o TransactionsProvider, uma vez so, no layout: assim Painel e Lancamentos enxergam
+ * a mesma lista ao trocar de tela.
  */
-export function useTransactions() {
+export function useTransactionsState() {
   const [movimentacoes, setMovimentacoes] = useState<Movimentacao[]>([]);
 
   // So a ultima exclusao pode ser desfeita; ela vira definitiva quando o aviso some (RF04).
@@ -74,4 +76,15 @@ export function useTransactions() {
     desfazerExclusao,
     confirmarExclusao,
   };
+}
+
+export type TransactionsApi = ReturnType<typeof useTransactionsState>;
+
+export const TransactionsContext = createContext<TransactionsApi | null>(null);
+
+/** As movimentacoes compartilhadas entre as telas. Precisa estar dentro do TransactionsProvider. */
+export function useTransactions(): TransactionsApi {
+  const api = useContext(TransactionsContext);
+  if (!api) throw new Error("useTransactions precisa estar dentro do TransactionsProvider.");
+  return api;
 }
