@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 import { proximoFoco, SELETOR_FOCAVEL } from "@/lib/focus";
+import { deveRemoverEntradaDaGaveta } from "@/lib/sheet-history";
 import { cn } from "@/lib/utils";
 
 type SheetProps = {
@@ -30,6 +31,16 @@ export function Sheet({ aberto, onFechar, titulo, rotuloFechar, children, classN
     aoFechar.current = onFechar;
   }, [onFechar]);
 
+  // Distingue "a gaveta fechou" de "a tela saiu do ar" (navegou para outra rota). Fica antes do
+  // efeito principal: na saida, o React roda as limpezas na ordem em que foram declaradas.
+  const desmontando = useRef(false);
+  useEffect(() => {
+    desmontando.current = false;
+    return () => {
+      desmontando.current = true;
+    };
+  }, []);
+
   useEffect(() => {
     if (!aberto) return;
     const anterior = document.activeElement as HTMLElement | null;
@@ -38,6 +49,7 @@ export function Sheet({ aberto, onFechar, titulo, rotuloFechar, children, classN
     // Botao voltar do celular: a gaveta ganha uma entrada no historico, entao voltar fecha so a
     // gaveta e nao a tela. Se ela fechar por outro caminho, a entrada e desfeita ao sair.
     let entradaNoHistorico = true;
+    const caminhoAoAbrir = window.location.pathname;
     window.history.pushState({ gaveta: true }, "");
     function aoVoltar() {
       entradaNoHistorico = false;
@@ -69,7 +81,18 @@ export function Sheet({ aberto, onFechar, titulo, rotuloFechar, children, classN
       document.removeEventListener("keydown", aoTeclar);
       window.removeEventListener("popstate", aoVoltar);
       document.body.style.overflow = overflowAnterior;
-      if (entradaNoHistorico) window.history.back();
+      // So desfaz a entrada quando o fechamento partiu da gaveta. Se a pessoa navegou para outra
+      // rota, voltar aqui desfaria a navegacao (a rota nova ja foi empilhada).
+      if (
+        deveRemoverEntradaDaGaveta({
+          entradaAberta: entradaNoHistorico,
+          desmontando: desmontando.current,
+          caminhoAoAbrir,
+          caminhoAgora: window.location.pathname,
+        })
+      ) {
+        window.history.back();
+      }
       anterior?.focus();
     };
   }, [aberto]);
