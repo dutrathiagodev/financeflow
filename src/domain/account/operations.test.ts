@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { adicionarMovimentacao, ordenarPorData } from "./operations";
+import {
+  adicionarMovimentacao,
+  excluirMovimentacao,
+  ordenarPorData,
+  posicaoDe,
+  restaurarMovimentacao,
+} from "./operations";
 import type { Movimentacao, RascunhoMovimentacao } from "./types";
 
 const rascunho = (extra: Partial<RascunhoMovimentacao> = {}): RascunhoMovimentacao => ({
@@ -66,5 +72,105 @@ describe("ordenarPorData", () => {
       existente("c", "2026-02-01"),
     ]).map((m) => m.id);
     expect(ids).toEqual(["b", "c", "a"]);
+  });
+});
+
+describe("excluirMovimentacao (RF04)", () => {
+  const lista = [existente("a", "2026-11-20"), existente("b", "2026-11-10"), existente("c", "2026-11-01")];
+
+  it("remove so a movimentacao do id informado e nao muda a lista original", () => {
+    const r = excluirMovimentacao(lista, "b");
+    expect(r.map((m) => m.id)).toEqual(["a", "c"]);
+    expect(lista).toHaveLength(3);
+  });
+
+  it("id que nao existe devolve uma lista igual", () => {
+    expect(excluirMovimentacao(lista, "x")).toEqual(lista);
+  });
+
+  it("a lista vazia continua vazia", () => {
+    expect(excluirMovimentacao([], "a")).toEqual([]);
+  });
+});
+
+describe("restaurarMovimentacao (Desfazer)", () => {
+  const lista = [existente("a", "2026-11-20"), existente("b", "2026-11-10"), existente("c", "2026-11-01")];
+
+  it("excluir e desfazer devolve exatamente a lista de antes", () => {
+    for (const indice of [0, 1, 2]) {
+      const item = lista[indice];
+      const depois = excluirMovimentacao(lista, item.id);
+      expect(restaurarMovimentacao(depois, item, posicaoDe(lista, item.id)!)).toEqual(lista);
+    }
+  });
+
+  it("em empate de data, volta para a mesma posicao entre as de mesma data", () => {
+    const empate = [existente("x", "2026-11-10"), existente("y", "2026-11-10"), existente("z", "2026-11-10")];
+    const depois = excluirMovimentacao(empate, "y");
+    expect(restaurarMovimentacao(depois, empate[1], posicaoDe(empate, "y")!).map((m) => m.id)).toEqual(["x", "y", "z"]);
+  });
+
+  it("se a lista mudou no meio tempo, o item ainda cai no lugar certo pela data", () => {
+    const item = lista[2];
+    const depois = excluirMovimentacao(lista, "c");
+    const comNova = [existente("n", "2026-11-25"), ...depois];
+    expect(restaurarMovimentacao(comNova, item, posicaoDe(lista, "c")!).map((m) => m.id)).toEqual(["n", "a", "b", "c"]);
+  });
+
+  it("indice fora do limite e ajustado", () => {
+    const item = lista[0];
+    const sozinho = { indice: 9, proximoId: null, anteriorId: null };
+    expect(restaurarMovimentacao([], item, sozinho)).toEqual([item]);
+    expect(restaurarMovimentacao([lista[1]], item, { ...sozinho, indice: -3 }).map((m) => m.id)).toEqual(["a", "b"]);
+  });
+
+  it("com item novo de mesma data adicionado no meio tempo, volta antes de quem vinha depois dele", () => {
+    // [a, b] na mesma data. Exclui a, adiciona n (o novo fica em cima) e desfaz: a volta entre n e b.
+    const mesmoDia = [existente("a", "2026-11-10"), existente("b", "2026-11-10")];
+    const depois = excluirMovimentacao(mesmoDia, "a");
+    const comNova = [existente("n", "2026-11-10"), ...depois];
+    expect(restaurarMovimentacao(comNova, mesmoDia[0], posicaoDe(mesmoDia, "a")!).map((m) => m.id)).toEqual(["n", "a", "b"]);
+  });
+
+  it("nao duplica se o item ja estiver na lista", () => {
+    expect(restaurarMovimentacao(lista, lista[0], posicaoDe(lista, "a")!)).toEqual(lista);
+  });
+
+  it("nao muda a lista recebida", () => {
+    const depois = excluirMovimentacao(lista, "a");
+    restaurarMovimentacao(depois, lista[0], posicaoDe(lista, "a")!);
+    expect(depois).toHaveLength(2);
+  });
+});
+
+describe("posicaoDe", () => {
+  const lista = [existente("a", "2026-11-20"), existente("b", "2026-11-10"), existente("c", "2026-11-01")];
+
+  it("guarda o indice e os vizinhos", () => {
+    expect(posicaoDe(lista, "b")).toEqual({ indice: 1, proximoId: "c", anteriorId: "a" });
+    expect(posicaoDe(lista, "a")).toEqual({ indice: 0, proximoId: "b", anteriorId: null });
+    expect(posicaoDe(lista, "c")).toEqual({ indice: 2, proximoId: null, anteriorId: "b" });
+  });
+
+  it("id que nao existe devolve null", () => {
+    expect(posicaoDe(lista, "x")).toBeNull();
+  });
+});
+
+describe("restaurarMovimentacao com vizinhos", () => {
+  it("se o proximo sumiu, usa o anterior", () => {
+    const lista = [existente("a", "2026-11-10"), existente("b", "2026-11-10"), existente("c", "2026-11-10")];
+    const posicao = posicaoDe(lista, "b")!; // proximo c, anterior a
+    const semBeC = [lista[0]]; // c e b foram embora
+    expect(restaurarMovimentacao(semBeC, lista[1], posicao).map((m) => m.id)).toEqual(["a", "b"]);
+  });
+
+  it("restaurar varias vezes, em qualquer ordem de exclusao, recompoe a lista", () => {
+    const lista = [existente("a", "2026-11-10"), existente("b", "2026-11-10"), existente("c", "2026-11-10")];
+    for (const id of ["a", "b", "c"]) {
+      const posicao = posicaoDe(lista, id)!;
+      const item = lista.find((m) => m.id === id)!;
+      expect(restaurarMovimentacao(excluirMovimentacao(lista, id), item, posicao)).toEqual(lista);
+    }
   });
 });
