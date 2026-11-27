@@ -172,27 +172,40 @@ describe("haFiltroAtivo", () => {
 });
 
 describe("historia: filtrar so as despesas de Lazer (FF-0023)", () => {
+  // Os mesmos seis lancamentos das fotos de evidencia do PR: tem duas despesas de Lazer e uma
+  // receita, entao a tela mostra "2 de 6" e os totais do topo sao R$ 750,00 e R$ 89,00.
+  const doCard: Movimentacao[] = [
+    m({ id: "mesada", tipo: "receita", categoria: "Mesada", valor: 450, data: "2026-11-05" }),
+    m({ id: "almoco", categoria: "Alimentação", valor: 25.5, data: "2026-11-20" }),
+    m({ id: "cinema", categoria: "Lazer", valor: 38, data: "2026-11-22" }),
+    m({ id: "freela", tipo: "receita", categoria: "Freelance", valor: 300, data: "2026-10-28" }),
+    m({ id: "onibus", categoria: "Transporte", valor: 5.5, data: "2026-11-24" }),
+    m({ id: "fliperama", categoria: "Lazer", valor: 20, data: "2026-10-30" }),
+  ];
   const filtros = com({ tipo: "despesa", categoria: "Lazer" });
+  const hoje = "2026-11-27";
 
   it("escolher Despesa e Lazer mostra so despesas de Lazer", () => {
-    const filtradas = filtrarMovimentacoes(lista, filtros);
-    expect(ids(filtradas)).toEqual(["cinema", "fliperama", "fatura"]);
+    const filtradas = filtrarMovimentacoes(doCard, filtros);
+    expect(ids(filtradas)).toEqual(["cinema", "fliperama"]);
     expect(filtradas.every((i) => i.tipo === "despesa" && i.categoria === "Lazer")).toBe(true);
   });
 
-  it("a contagem N de M usa o resultado e a lista inteira", () => {
-    expect(`${filtrarMovimentacoes(lista, filtros).length} de ${lista.length}`).toBe("3 de 6");
+  it("a contagem N de M e 2 de 6, a mesma das fotos", () => {
+    expect(`${filtrarMovimentacoes(doCard, filtros).length} de ${doCard.length}`).toBe("2 de 6");
   });
 
   it("os totais do topo seguem calculados com todos os lancamentos", () => {
-    const hoje = "2026-11-27";
-    const filtradas = filtrarMovimentacoes(lista, filtros);
-    expect(resumir(lista, hoje)).not.toEqual(resumir(filtradas, hoje));
-    expect(resumir(lista, hoje).receitas).toBe(750);
+    const filtradas = filtrarMovimentacoes(doCard, filtros);
+    expect(resumir(doCard, hoje)).toEqual({ receitas: 750, despesas: 89, saldo: 661 });
+    // So a lista filtrada daria outro numero: e por isso o resumo nunca recebe a filtrada.
+    expect(resumir(filtradas, hoje)).toEqual({ receitas: 0, despesas: 58, saldo: -58 });
   });
 
-  it("limpar o filtro devolve a lista inteira", () => {
-    expect(ids(filtrarMovimentacoes(lista, FILTROS_PADRAO))).toEqual(ids(lista));
+  it("com o filtro ativo ha o que limpar; limpar devolve as seis, na mesma ordem", () => {
+    expect(haFiltroAtivo(filtros)).toBe(true);
     expect(haFiltroAtivo(FILTROS_PADRAO)).toBe(false);
+    expect(ids(filtrarMovimentacoes(doCard, FILTROS_PADRAO))).toEqual(ids(doCard));
+    expect(filtrarMovimentacoes(doCard, FILTROS_PADRAO)).toHaveLength(6);
   });
 });
