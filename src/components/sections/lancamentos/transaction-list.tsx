@@ -14,7 +14,9 @@ type TransactionListProps = {
   onExcluir: (id: string) => void;
   /** Controles de filtro, mostrados so quando ha movimentacoes. */
   filtros?: ReactNode;
-  /** Chamado pelo botao "Limpar filtros" do estado sem resultado. */
+  /** Ha algum filtro escolhido: mostra o botao "Limpar filtros" tambem quando ha resultados. */
+  filtrosAtivos?: boolean;
+  /** Chamado pelos botoes "Limpar filtros" (com resultados e no estado sem resultado). */
   onLimparFiltros: () => void;
 };
 
@@ -38,6 +40,7 @@ export function TransactionList({
   hoje,
   onExcluir,
   filtros,
+  filtrosAtivos = false,
   onLimparFiltros,
 }: TransactionListProps) {
   return (
@@ -53,6 +56,13 @@ export function TransactionList({
       ) : (
         <>
           {filtros}
+          {filtrosAtivos && movimentacoes.length > 0 ? (
+            <div className="mb-3 flex justify-end">
+              <Button variant="outline" onClick={onLimparFiltros}>
+                {textos.semResultado.limpar}
+              </Button>
+            </div>
+          ) : null}
           {movimentacoes.length === 0 ? (
             <EstadoVazio titulo={textos.semResultado.titulo} dica={textos.semResultado.dica}>
               <Button variant="outline" className="mt-4" onClick={onLimparFiltros}>

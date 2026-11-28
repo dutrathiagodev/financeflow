@@ -148,4 +148,27 @@ describe("contagem e filtros", () => {
     expect(out).toContain(lista.contagem(0, 5));
     expect(out).not.toContain("<ul");
   });
+
+  it("com filtro ativo e resultados mostra o botao Limpar filtros acima da lista", () => {
+    const out = html(<Lista movimentacoes={[almoco]} total={5} hoje="" filtros={<p>FILTROS</p>} filtrosAtivos />);
+    expect(out).toContain(lista.semResultado.limpar);
+    expect(out).toContain("<ul");
+    expect(out.indexOf("FILTROS")).toBeLessThan(out.indexOf(lista.semResultado.limpar));
+    expect(out.indexOf(lista.semResultado.limpar)).toBeLessThan(out.indexOf("<ul"));
+  });
+
+  it("sem filtro ativo nao mostra o botao Limpar filtros", () => {
+    const out = html(<Lista movimentacoes={[almoco]} total={5} hoje="" filtros={<p>FILTROS</p>} />);
+    expect(out).not.toContain(lista.semResultado.limpar);
+  });
+
+  it("sem resultado o botao Limpar filtros aparece uma vez so", () => {
+    const out = html(<Lista movimentacoes={[]} total={5} hoje="" filtrosAtivos />);
+    expect(out.split(lista.semResultado.limpar)).toHaveLength(2);
+  });
+
+  it("o botao Limpar filtros tem alvo de toque de pelo menos 44 px", () => {
+    const out = html(<Lista movimentacoes={[almoco]} total={5} hoje="" filtrosAtivos />);
+    expect(out).toMatch(/min-h-11[^>]*>Limpar filtros/);
+  });
 });

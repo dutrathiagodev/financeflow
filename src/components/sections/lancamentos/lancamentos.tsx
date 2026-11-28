@@ -71,6 +71,7 @@ export function Lancamentos() {
               onMes={filtragem.alterarMes}
             />
           }
+          filtrosAtivos={filtragem.ativo}
           onLimparFiltros={filtragem.limpar}
           onExcluir={(id) => {
             setAviso(null);
