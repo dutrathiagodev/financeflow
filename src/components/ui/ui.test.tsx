@@ -75,6 +75,11 @@ describe("SegmentedControl", () => {
     );
     expect(out.match(/checked=""/g)).toHaveLength(1);
   });
+
+  it("cada segmento tem alvo de toque de pelo menos 44px", () => {
+    const out = html(<SegmentedControl name="tipo" legend="Tipo" options={opcoes} defaultValue="despesa" />);
+    expect(out.match(/min-h-11/g)).toHaveLength(2);
+  });
 });
 
 describe("Tag", () => {
